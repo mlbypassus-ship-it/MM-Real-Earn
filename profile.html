@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MM-Real-Earn | Profile</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #07111f;
+      color: white;
+      padding-bottom: 30px;
+    }
+
+    .header {
+      padding: 18px;
+      background: #0b1b2d;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .back {
+      border: none;
+      background: transparent;
+      color: #38bdf8;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    .header h1 {
+      font-size: 21px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 25px 18px;
+    }
+
+    .avatar {
+      width: 85px;
+      height: 85px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: #102a43;
+      border: 2px solid #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 35px;
+    }
+
+    .name {
+      text-align: center;
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .email {
+      text-align: center;
+      color: #9fb1c5;
+      font-size: 14px;
+      margin-top: 7px;
+      word-break: break-all;
+    }
+
+    .card {
+      margin-top: 25px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .row {
+      padding: 18px
