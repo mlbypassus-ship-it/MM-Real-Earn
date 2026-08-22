@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MM-Real-Earn | Dashboard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #07111f;
+      color: white;
+      padding-bottom: 80px;
+    }
+
+    .header {
+      padding: 20px;
+      background: #0b1b2d;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .header h1 {
+      font-size: 22px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .welcome {
+      margin-bottom: 20px;
+    }
+
+    .welcome p {
+      color: #9fb1c5;
+      margin-top: 6px;
+      font-size: 14px;
+    }
+
+    .card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 20px;
+      padding: 22px;
+      margin-bottom: 15px;
+    }
+
+    .label {
+      color: #9fb1c5;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .value {
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .logout {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 12px;
+      background: #ef4444;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #status {
+      text-align: center;
+      color: #9fb1c5;
+      margin: 15px 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <h1>MM-Real-Earn</h1>
+  </header>
+
+  <main class="container">
+
+    <div class="welcome">
+      <h2>Welcome 👋</h2>
+      <p id="email">Loading...</p>
+    </div>
+
+    <div class="card">
+      <div class="label">Username</div>
+      <div class="value" id="username">Loading...</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Balance</div>
+      <div class="value" id="balance">Loading...</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Points</div>
+      <div class="value" id="points">Loading...</div>
+    </div>
+
+    <div id="status"></div>
+
+    <button class="logout" onclick="logout()">
+      Logout
+    </button>
+
+  </main>
+
+  <script>
+    const SUPABASE_URL =
+      "https://acclbthzfzrfbwyslpvv.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_PxrCIfh0MfL6KT1iQxgqfw__IgNG1OY";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+    async function loadProfile() {
+
+      const {
+        data: { session },
+        error: sessionError
+      } = await supabaseClient.auth.getSession();
+
+      if (sessionError || !session) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      const user = session.user;
+
+      document.getElementById("email").textContent =
+        user.email;
+
+      const { data: profile, error } =
+        await supabaseClient
+          .from("profiles")
+          .select("username, balance, points")
+          .eq("id", user.id)
+          .single();
+
+      if (error) {
+        console.error(error);
+        document.getElementById("status").textContent =
+          "Unable to load profile.";
+        return;
+      }
+
+      document.getElementById("username").textContent =
+        profile.username || "User";
+
+      document.getElementById("balance").textContent =
+        Number(profile.balance || 0).toLocaleString() + " MMK";
+
+      document.getElementById("points").textContent =
+        Number(profile.points || 0).toLocaleString();
+
+    }
+
+    async function logout() {
+
+      await supabaseClient.auth.signOut();
+
+      window.location.href = "index.html";
+    }
+
+    loadProfile();
+  </script>
+
+</body>
+</html>
