@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MM-Real-Earn | Home</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #07111f;
+      color: #ffffff;
+      padding-bottom: 90px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 16px 18px;
+      background: rgba(7,17,31,0.92);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .profile-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: #102a43;
+      color: #38bdf8;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px 16px;
+    }
+
+    .welcome {
+      margin-top: 8px;
+      margin-bottom: 18px;
+    }
+
+    .welcome h2 {
+      font-size: 25px;
+    }
+
+    .welcome p {
+      color: #9fb1c5;
+      margin-top: 6px;
+      font-size: 14px;
+    }
+
+    .balance-card {
+      padding: 22px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #0e7490, #075985);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+      margin-bottom: 22px;
+    }
+
+    .balance-label {
+      color: #d9f6ff;
+      font-size: 14px;
+    }
+
+    .balance {
+      margin-top: 8px;
+      font-size: 32px;
+      font-weight: 800;
+    }
+
+    .balance-card p {
+      margin-top: 8px;
+      color: #c7efff;
+      font-size: 13px;
+    }
+
+    .section-title {
+      font-size: 19px;
+      margin: 22px 0 14px;
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .game-card {
+      min-height: 120px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.09);
+    }
+
+    .game-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .game-card h3 {
+      font-size: 16px;
+    }
+
+    .game-card p {
+      margin-top: 5px;
+      color: #8fa4ba;
+      font-size: 12px;
+    }
+
+    .notice {
+      margin-top: 22px;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(56,189,248,0.08);
+      border: 1px solid rgba(56,189,248,0.15);
+      color: #bdeeff;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      height: 72px;
+      background: rgba(7,17,31,0.96);
+      backdrop-filter: blur(15px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: center;
+    }
+
+    .nav-inner {
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .nav-btn {
+      border: none;
+      background: transparent;
+      color: #7890a8;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .nav-btn.active {
+      color: #38bdf8;
+    }
+
+    .nav-icon {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    @media (min-width: 600px) {
+      .games {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="brand">MM-Real-Earn</div>
+
+    <button class="profile-btn" onclick="logout()">
+      ↪
+    </button>
+  </header>
+
+  <main class="container">
+
+    <section class="welcome">
+      <h2>Welcome 👋</h2>
+      <p id="userEmail">Loading account...</p>
+    </section>
+
+    <section class="balance-card">
+      <div class="balance-label">Available Balance</div>
+      <div class="balance">0 MMK</div>
+      <p>Your earnings will appear here.</p>
+    </section>
+
+    <h2 class="section-title">Earn & Play</h2>
+
+    <section class="games">
+
+      <div class="game-card">
+        <div class="game-icon">🎮</div>
+        <h3>Mini Game 1</h3>
+        <p>Coming soon</p>
+      </div>
+
+      <div class="game-card">
+        <div class="game-icon">🎯</div>
+        <h3>Mini Game 2</h3>
+        <p>Coming soon</p>
+      </div>
+
+      <div class="game-card">
+        <div class="game-icon">🎁</div>
+        <h3>Daily Reward</h3>
+        <p>Coming soon</p>
+      </div>
+
+      <div class="game-card">
+        <div class="game-icon">💰</div>
+        <h3>Earn More</h3>
+        <p>Coming soon</p>
+      </div>
+
+    </section>
+
+    <div class="notice">
+      More earning features will be connected here later.
+    </div>
+
+  </main>
+
+  <nav class="bottom-nav">
+
+    <div class="nav-inner">
+
+      <button class="nav-btn active">
+        <span class="nav-icon">⌂</span>
+        Home
+      </button>
+
+      <button class="nav-btn">
+        <span class="nav-icon">🎮</span>
+        Games
+      </button>
+
+      <button class="nav-btn">
+        <span class="nav-icon">💰</span>
+        Wallet
+      </button>
+
+      <button class="nav-btn">
+        <span class="nav-icon">👤</span>
+        Profile
+      </button>
+
+    </div>
+
+  </nav>
+
+  <script>
+    const SUPABASE_URL =
+      "https://acclbthzfzrfbwyslpvv.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_PxrCIfh0MfL6KT1iQxgqfw__IgNG1OY";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+    async function checkUser() {
+
+      const {
+        data: { session }
+      } = await supabaseClient.auth.getSession();
+
+      if (!session) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      document.getElementById("userEmail").textContent =
+        session.user.email;
+    }
+
+    async function logout() {
+
+      await supabaseClient.auth.signOut();
+
+      window.location.href = "index.html";
+    }
+
+    checkUser();
+  </script>
+
+</body>
+</html>
