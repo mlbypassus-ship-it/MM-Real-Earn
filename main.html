@@ -3,291 +3,635 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MM-Real-Earn</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>MM Real Earn</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
 
 body{
-  font-family:Arial,sans-serif;
-  background:#07111f;
-  color:white;
-  min-height:100vh;
+    background:#070b16;
+    color:#fff;
+    min-height:100vh;
+    padding-bottom:90px;
 }
 
-.header{
-  padding:20px;
-  background:#0b1b2d;
-  font-size:23px;
-  font-weight:bold;
+/* TOP BAR */
+.topbar{
+    height:70px;
+    padding:0 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:rgba(12,18,35,.95);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
+/* CSS LOGO */
+.logo-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo{
+    width:43px;
+    height:43px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#00e5ff,#6c5ce7);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    font-weight:900;
+    box-shadow:0 0 20px rgba(0,229,255,.35);
+    transform:rotate(-4deg);
+}
+
+.logo-text{
+    font-size:18px;
+    font-weight:800;
+    letter-spacing:.4px;
+}
+
+.logo-text span{
+    color:#00e5ff;
+}
+
+/* NOTIFICATION */
+.noti{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    background:#111a30;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    position:relative;
+}
+
+.noti-dot{
+    position:absolute;
+    top:7px;
+    right:7px;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#ff375f;
+    box-shadow:0 0 8px #ff375f;
+}
+
+/* MAIN */
 .container{
-  max-width:700px;
-  margin:auto;
-  padding:22px 18px 100px;
+    width:100%;
+    max-width:520px;
+    margin:auto;
+    padding:18px;
 }
 
+/* WELCOME */
 .welcome{
-  margin-bottom:20px;
+    margin-top:5px;
+    margin-bottom:18px;
 }
 
-.welcome h2{
-  font-size:25px;
+.welcome small{
+    color:#8d98b5;
+    font-size:13px;
 }
 
-.email{
-  color:#91a4b8;
-  font-size:14px;
-  margin-top:7px;
+.welcome h1{
+    margin-top:5px;
+    font-size:25px;
+}
+
+.welcome h1 span{
+    color:#00e5ff;
+}
+
+/* BALANCE */
+.balance-card{
+    padding:22px;
+    border-radius:24px;
+    background:
+      radial-gradient(circle at 90% 10%,rgba(0,229,255,.22),transparent 35%),
+      linear-gradient(145deg,#121d38,#0b1122);
+    border:1px solid rgba(0,229,255,.18);
+    box-shadow:0 15px 40px rgba(0,0,0,.3);
+    margin-bottom:18px;
+}
+
+.balance-title{
+    color:#9aa6c2;
+    font-size:13px;
 }
 
 .balance{
-  background:#075985;
-  border-radius:20px;
-  padding:25px;
-  margin-bottom:25px;
+    font-size:34px;
+    font-weight:900;
+    margin:8px 0 18px;
 }
 
-.balance small{
-  color:#c9efff;
+.balance span{
+    font-size:17px;
+    color:#00e5ff;
 }
 
-.money{
-  font-size:32px;
-  font-weight:bold;
-  margin-top:8px;
+.balance-row{
+    display:flex;
+    gap:10px;
 }
 
-.points{
-  margin-top:8px;
-  color:#c9efff;
+.balance-btn{
+    flex:1;
+    border:0;
+    padding:12px;
+    border-radius:13px;
+    font-weight:bold;
+    color:white;
+    background:#18243f;
+    cursor:pointer;
 }
 
-.title{
-  margin-bottom:14px;
-  font-size:19px;
+.balance-btn.primary{
+    background:linear-gradient(135deg,#00bcd4,#5664f5);
 }
 
-.menu{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:13px;
+/* ANNOUNCEMENT */
+.announcement{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px;
+    border-radius:17px;
+    background:#10182b;
+    border:1px solid rgba(255,255,255,.06);
+    margin-bottom:20px;
 }
 
-.card{
-  text-decoration:none;
-  color:white;
-  background:#10243a;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:18px;
-  padding:22px 16px;
-  min-height:125px;
+.announce-icon{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#19233b;
 }
 
-.icon{
-  font-size:30px;
-  margin-bottom:10px;
+.announcement p{
+    font-size:13px;
+    color:#b7c0d5;
+    line-height:1.5;
 }
 
-.card h3{
-  font-size:16px;
+/* SECTION */
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:20px 2px 12px;
 }
 
-.card p{
-  color:#91a4b8;
-  font-size:12px;
-  margin-top:6px;
+.section-title h2{
+    font-size:18px;
 }
 
-.logout{
-  cursor:pointer;
+.section-title span{
+    font-size:12px;
+    color:#00e5ff;
 }
 
-.bottom{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:70px;
-  background:#081523;
-  border-top:1px solid rgba(255,255,255,.08);
-  display:flex;
-  justify-content:center;
+/* FEATURE GRID */
+.feature-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
 }
 
-.bottom a{
-  flex:1;
-  max-width:170px;
-  text-align:center;
-  padding-top:12px;
-  color:#91a4b8;
-  text-decoration:none;
-  font-size:12px;
+.feature{
+    min-height:145px;
+    padding:18px;
+    border-radius:21px;
+    background:#10182b;
+    border:1px solid rgba(255,255,255,.07);
+    cursor:pointer;
+    transition:.2s;
 }
 
-.bottom span{
-  display:block;
-  font-size:21px;
-  margin-bottom:3px;
+.feature:active{
+    transform:scale(.97);
 }
 
-#status{
-  text-align:center;
-  color:#ef4444;
-  margin-top:15px;
+.feature-icon{
+    width:48px;
+    height:48px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    background:#182540;
+    margin-bottom:15px;
+}
+
+.feature h3{
+    font-size:15px;
+    margin-bottom:5px;
+}
+
+.feature p{
+    color:#78849f;
+    font-size:11px;
+}
+
+/* QUICK MENU */
+.quick{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding-bottom:5px;
+}
+
+.quick::-webkit-scrollbar{
+    display:none;
+}
+
+.quick-card{
+    min-width:110px;
+    padding:15px 12px;
+    text-align:center;
+    background:#10182b;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:17px;
+    cursor:pointer;
+}
+
+.quick-card div{
+    font-size:23px;
+    margin-bottom:8px;
+}
+
+.quick-card span{
+    font-size:11px;
+    color:#aeb8cf;
+}
+
+/* DAILY */
+.daily-card{
+    margin-top:18px;
+    padding:18px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#17152e,#10182b);
+    border:1px solid rgba(108,92,231,.25);
+}
+
+.daily-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.daily-left{
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.daily-icon{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#262044;
+    font-size:22px;
+}
+
+.daily-card h3{
+    font-size:15px;
+}
+
+.daily-card p{
+    margin-top:4px;
+    font-size:11px;
+    color:#7f8aa4;
+}
+
+.start-btn{
+    border:0;
+    padding:10px 14px;
+    border-radius:12px;
+    color:#fff;
+    background:#6658e8;
+    font-weight:bold;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:0;
+    width:100%;
+    max-width:520px;
+    height:76px;
+    padding:9px 12px;
+    background:rgba(9,14,27,.97);
+    backdrop-filter:blur(15px);
+    border-top:1px solid rgba(255,255,255,.08);
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    z-index:200;
+}
+
+.nav-item{
+    border:0;
+    background:none;
+    color:#66718b;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    cursor:pointer;
+}
+
+.nav-item .icon{
+    font-size:21px;
+}
+
+.nav-item span{
+    font-size:10px;
+}
+
+.nav-item.active{
+    color:#00e5ff;
+}
+
+@media(max-width:360px){
+    .container{
+        padding:14px;
+    }
+
+    .balance{
+        font-size:29px;
+    }
+
+    .feature{
+        min-height:135px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header class="header">
-  MM-Real-Earn
+<!-- TOP BAR -->
+<header class="topbar">
+
+    <div class="logo-box">
+        <div class="logo">M</div>
+
+        <div class="logo-text">
+            MM <span>REAL</span> EARN
+        </div>
+    </div>
+
+    <div class="noti" onclick="notification()">
+        🔔
+        <div class="noti-dot"></div>
+    </div>
+
 </header>
+
 
 <main class="container">
 
-  <div class="welcome">
-    <h2>Welcome 👋</h2>
-    <div class="email" id="email">Loading...</div>
-  </div>
+    <!-- WELCOME -->
+    <section class="welcome">
+        <small>Welcome back 👋</small>
+        <h1>Hello, <span>Member</span></h1>
+    </section>
 
-  <div class="balance">
-    <small>Available Balance</small>
-    <div class="money" id="balance">Loading...</div>
-    <div class="points">
-      ⭐ <span id="points">0</span> Points
+
+    <!-- BALANCE -->
+    <section class="balance-card">
+
+        <div class="balance-title">
+            Available Balance
+        </div>
+
+        <div class="balance">
+            0.00 <span>MMK</span>
+        </div>
+
+        <div class="balance-row">
+
+            <button class="balance-btn primary"
+                    onclick="openPage('withdraw.html')">
+                💸 Withdraw
+            </button>
+
+            <button class="balance-btn"
+                    onclick="openPage('profile2.html')">
+                👤 Profile
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ANNOUNCEMENT -->
+    <section class="announcement">
+
+        <div class="announce-icon">
+            📢
+        </div>
+
+        <p>
+            Welcome to MM Real Earn! Complete tasks,
+            play games and earn rewards.
+        </p>
+
+    </section>
+
+
+    <!-- FEATURES -->
+    <div class="section-title">
+        <h2>Earn & Reward</h2>
+        <span>View All</span>
     </div>
-  </div>
 
-  <div class="title">Account</div>
+    <section class="feature-grid">
 
-  <div class="menu">
+        <div class="feature"
+             onclick="openPage('games.html')">
 
-    <a class="card" href="profile2.html">
-      <div class="icon">👤</div>
-      <h3>Profile</h3>
-      <p>View your profile</p>
-    </a>
+            <div class="feature-icon">
+                🎮
+            </div>
 
-    <a class="card" href="withdraw.html">
-      <div class="icon">💸</div>
-      <h3>Withdraw</h3>
-      <p>Request withdrawal</p>
-    </a>
+            <h3>Mini Games</h3>
+            <p>Play games & earn coins</p>
 
-    <a class="card" href="customer.html">
-      <div class="icon">🎧</div>
-      <h3>Customer Service</h3>
-      <p>Get support</p>
-    </a>
+        </div>
 
-    <div class="card logout" onclick="signOut()">
-      <div class="icon">🚪</div>
-      <h3>Sign Out</h3>
-      <p>Logout account</p>
+
+        <div class="feature"
+             onclick="openPage('video.html')">
+
+            <div class="feature-icon">
+                🎬
+            </div>
+
+            <h3>Video Reward</h3>
+            <p>Watch videos & earn</p>
+
+        </div>
+
+
+        <div class="feature"
+             onclick="openPage('daily.html')">
+
+            <div class="feature-icon">
+                🎁
+            </div>
+
+            <h3>Daily Test</h3>
+            <p>Daily reward available</p>
+
+        </div>
+
+
+        <div class="feature"
+             onclick="openPage('withdraw.html')">
+
+            <div class="feature-icon">
+                💰
+            </div>
+
+            <h3>Withdraw</h3>
+            <p>Cash out your balance</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUICK ACCESS -->
+    <div class="section-title">
+        <h2>Quick Access</h2>
     </div>
 
-  </div>
+    <section class="quick">
 
-  <div id="status"></div>
+        <div class="quick-card"
+             onclick="openPage('games.html')">
+            <div>🎮</div>
+            <span>Games</span>
+        </div>
+
+        <div class="quick-card"
+             onclick="openPage('video.html')">
+            <div>▶️</div>
+            <span>Videos</span>
+        </div>
+
+        <div class="quick-card"
+             onclick="openPage('daily.html')">
+            <div>🔥</div>
+            <span>Daily</span>
+        </div>
+
+        <div class="quick-card"
+             onclick="openPage('profile2.html')">
+            <div>👤</div>
+            <span>Profile</span>
+        </div>
+
+    </section>
+
+
+    <!-- DAILY CARD -->
+    <section class="daily-card">
+
+        <div class="daily-top">
+
+            <div class="daily-left">
+
+                <div class="daily-icon">
+                    🎯
+                </div>
+
+                <div>
+                    <h3>Daily Reward</h3>
+                    <p>Come back every day for rewards</p>
+                </div>
+
+            </div>
+
+            <button class="start-btn"
+                    onclick="openPage('daily.html')">
+                Start
+            </button>
+
+        </div>
+
+    </section>
 
 </main>
 
-<nav class="bottom">
 
-  <a href="main.html">
-    <span>⌂</span>
-    Home
-  </a>
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
 
-  <a href="profile2.html">
-    <span>👤</span>
-    Profile
-  </a>
+    <button class="nav-item active"
+            onclick="openPage('main.html')">
+        <div class="icon">🏠</div>
+        <span>Home</span>
+    </button>
 
-  <a href="withdraw.html">
-    <span>💸</span>
-    Withdraw
-  </a>
+    <button class="nav-item"
+            onclick="openPage('games.html')">
+        <div class="icon">🎮</div>
+        <span>Games</span>
+    </button>
 
-  <a href="customer.html">
-    <span>🎧</span>
-    Support
-  </a>
+    <button class="nav-item"
+            onclick="openPage('video.html')">
+        <div class="icon">🎬</div>
+        <span>Reward</span>
+    </button>
+
+    <button class="nav-item"
+            onclick="openPage('profile2.html')">
+        <div class="icon">👤</div>
+        <span>Profile</span>
+    </button>
 
 </nav>
 
+
 <script>
 
-const SUPABASE_URL =
-"https://acclbthzfzrfbwyslpvv.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_PxrCIfh0MfL6KT1iQxgqfw__IgNG1OY";
-
-const supabaseClient =
-window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-async function loadHome(){
-
-  const {
-    data:{session},
-    error
-  } = await supabaseClient.auth.getSession();
-
-  if(error || !session){
-    window.location.href="index.html";
-    return;
-  }
-
-  const user=session.user;
-
-  document.getElementById("email").textContent =
-    user.email;
-
-  const {data:profile,error:profileError} =
-    await supabaseClient
-    .from("profiles")
-    .select("username,balance,points")
-    .eq("id",user.id)
-    .single();
-
-  if(profileError){
-    console.error(profileError);
-    document.getElementById("status").textContent =
-      "Unable to load profile.";
-    return;
-  }
-
-  document.getElementById("balance").textContent =
-    Number(profile.balance || 0).toLocaleString()+" MMK";
-
-  document.getElementById("points").textContent =
-    Number(profile.points || 0).toLocaleString();
+function openPage(page){
+    window.location.href = page;
 }
 
-async function signOut(){
-
-  const {error} =
-    await supabaseClient.auth.signOut();
-
-  if(error){
-    document.getElementById("status").textContent =
-      error.message;
-    return;
-  }
-
-  window.location.href="index.html";
+function notification(){
+    alert("No new notifications");
 }
-
-loadHome();
 
 </script>
 
