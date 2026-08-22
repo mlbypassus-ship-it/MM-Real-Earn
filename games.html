@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM Real Earn - Games</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#070b16;
+    color:white;
+    min-height:100vh;
+    padding-bottom:30px;
+}
+
+.topbar{
+    height:70px;
+    padding:0 18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#0c1223;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.back{
+    width:40px;
+    height:40px;
+    border:0;
+    border-radius:12px;
+    background:#17213a;
+    color:white;
+    font-size:20px;
+}
+
+.logo{
+    width:40px;
+    height:40px;
+    border-radius:13px;
+    background:linear-gradient(135deg,#00e5ff,#6557e8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    box-shadow:0 0 18px rgba(0,229,255,.3);
+}
+
+.title{
+    font-size:18px;
+    font-weight:800;
+}
+
+.title span{
+    color:#00e5ff;
+}
+
+.container{
+    max-width:520px;
+    margin:auto;
+    padding:18px;
+}
+
+.heading{
+    margin:8px 0 18px;
+}
+
+.heading small{
+    color:#7e8aa6;
+}
+
+.heading h1{
+    margin-top:5px;
+    font-size:27px;
+}
+
+/* GAME LIST */
+
+.game-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px;
+}
+
+.game-card{
+    padding:18px;
+    min-height:165px;
+    border-radius:22px;
+    background:#10182b;
+    border:1px solid rgba(255,255,255,.07);
+    cursor:pointer;
+    transition:.2s;
+}
+
+.game-card:active{
+    transform:scale(.96);
+}
+
+.game-icon{
+    width:55px;
+    height:55px;
+    border-radius:17px;
+    background:#1b2743;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    margin-bottom:14px;
+}
+
+.game-card h3{
+    font-size:15px;
+    margin-bottom:6px;
+}
+
+.game-card p{
+    color:#7d89a3;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.play-label{
+    margin-top:12px;
+    color:#00e5ff;
+    font-size:11px;
+    font-weight:bold;
+}
+
+/* PLAY SCREEN */
+
+#playScreen{
+    display:none;
+}
+
+.game-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.game-name{
+    font-size:20px;
+    font-weight:800;
+}
+
+.level{
+    background:#17213a;
+    border:1px solid rgba(0,229,255,.2);
+    padding:9px 13px;
+    border-radius:12px;
+    color:#00e5ff;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.stat{
+    background:#10182b;
+    border-radius:15px;
+    padding:13px;
+    text-align:center;
+}
+
+.stat small{
+    display:block;
+    color:#7d89a3;
+    font-size:10px;
+    margin-bottom:5px;
+}
+
+.stat strong{
+    font-size:18px;
+}
+
+/* GAME BOX */
+
+.game-box{
+    height:390px;
+    border-radius:24px;
+    background:
+        radial-gradient(circle at center,rgba(0,229,255,.08),transparent 45%),
+        #0c1426;
+    border:1px solid rgba(255,255,255,.08);
+    position:relative;
+    overflow:hidden;
+}
+
+.instruction{
+    text-align:center;
+    padding:20px;
+    color:#9ca7bf;
+    font-size:13px;
+}
+
+/* TAP GAME */
+
+.target{
+    position:absolute;
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#00e5ff,#6658e8);
+    box-shadow:0 0 25px rgba(0,229,255,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* MEMORY */
+
+.memory-grid{
+    padding:20px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+}
+
+.memory-card{
+    height:65px;
+    border:0;
+    border-radius:12px;
+    background:#192541;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.memory-card.open{
+    background:#6658e8;
+}
+
+.memory-card.done{
+    background:#087f8e;
+}
+
+/* NUMBER */
+
+.number-area{
+    text-align:center;
+    padding-top:50px;
+}
+
+.number-display{
+    font-size:48px;
+    font-weight:900;
+    margin-bottom:25px;
+    color:#00e5ff;
+}
+
+.number-input{
+    width:80%;
+    padding:15px;
+    border:0;
+    outline:none;
+    border-radius:13px;
+    background:#18243f;
+    color:white;
+    text-align:center;
+    font-size:20px;
+}
+
+.action-btn{
+    border:0;
+    margin-top:14px;
+    padding:13px 25px;
+    border-radius:13px;
+    color:white;
+    background:linear-gradient(135deg,#00bcd4,#6557e8);
+    font-weight:bold;
+}
+
+/* COLOR */
+
+.color-area{
+    padding-top:50px;
+    text-align:center;
+}
+
+.color-box{
+    width:120px;
+    height:120px;
+    border-radius:25px;
+    margin:20px auto;
+}
+
+.color-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    padding:15px;
+}
+
+.color-options button{
+    border:0;
+    padding:14px;
+    border-radius:13px;
+    color:white;
+    background:#192541;
+    font-weight:bold;
+}
+
+/* RESULT */
+
+.result{
+    display:none;
+    position:absolute;
+    inset:0;
+    background:rgba(7,11,22,.96);
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    z-index:5;
+}
+
+.result h2{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.result p{
+    color:#9da8c0;
+    margin-bottom:18px;
+}
+
+.result button{
+    border:0;
+    padding:13px 25px;
+    border-radius:13px;
+    background:#6557e8;
+    color:white;
+    font-weight:bold;
+}
+
+.back-games{
+    width:100%;
+    margin-top:15px;
+    padding:14px;
+    border:0;
+    border-radius:14px;
+    background:#151f35;
+    color:white;
+}
+
+/* LEVEL BAR */
+
+.level-bar{
+    height:6px;
+    background:#18233c;
+    border-radius:20px;
+    margin-top:10px;
+    overflow:hidden;
+}
+
+.level-progress{
+    height:100%;
+    width:10%;
+    background:linear-gradient(90deg,#00e5ff,#6557e8);
+    transition:.3s;
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <button class="back" onclick="goHome()">‹</button>
+
+    <div class="logo">M</div>
+
+    <div class="title">
+        MM <span>REAL</span> EARN
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <!-- GAME LIST -->
+
+    <section id="gameList">
+
+        <div class="heading">
+            <small>Choose your challenge 🎮</small>
+            <h1>Mini Games</h1>
+        </div>
+
+        <div class="game-grid">
+
+            <div class="game-card" onclick="startGame('tap')">
+                <div class="game-icon">🎯</div>
+                <h3>Tap Target</h3>
+                <p>Tap the target as fast as possible.</p>
+                <div class="play-label">▶ PLAY</div>
+            </div>
+
+            <div class="game-card" onclick="startGame('memory')">
+                <div class="game-icon">🧠</div>
+                <h3>Memory Cards</h3>
+                <p>Remember the cards and match them.</p>
+                <div class="play-label">▶ PLAY</div>
+            </div>
+
+            <div class="game-card" onclick="startGame('number')">
+                <div class="game-icon">🔢</div>
+                <h3>Number Rush</h3>
+                <p>Remember the number and type it.</p>
+                <div class="play-label">▶ PLAY</div>
+            </div>
+
+            <div class="game-card" onclick="startGame('color')">
+                <div class="game-icon">🎨</div>
+                <h3>Color Match</h3>
+                <p>Choose the correct color.</p>
+                <div class="play-label">▶ PLAY</div>
+            </div>
+
+            <div class="game-card" onclick="startGame('quick')">
+                <div class="game-icon">⚡</div>
+                <h3>Quick Click</h3>
+                <p>Complete the challenge before time runs out.</p>
+                <div class="play-label">▶ PLAY</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- PLAY SCREEN -->
+
+    <section id="playScreen">
+
+        <div class="game-header">
+
+            <div class="game-name" id="gameName">
+                Game
+            </div>
+
+            <div class="level">
+                LV <span id="levelText">1</span>
+            </div>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <small>SCORE</small>
+                <strong id="score">0</strong>
+            </div>
+
+            <div class="stat">
+                <small>COINS</small>
+                <strong id="coins">0</strong>
+            </div>
+
+        </div>
+
+        <div class="level-bar">
+            <div class="level-progress" id="levelProgress"></div>
+        </div>
+
+        <br>
+
+        <div class="game-box" id="gameBox">
+
+            <div class="instruction" id="instruction">
+                Get ready...
+            </div>
+
+            <div class="target" id="target"
+                 onclick="hitTarget()">
+                +
+            </div>
+
+            <div class="result" id="result">
+
+                <h2 id="resultTitle">
+                    Level Complete!
+                </h2>
+
+                <p id="resultText">
+                    Great job!
+                </p>
+
+                <button onclick="nextLevel()">
+                    Next Level →
+                </button>
+
+            </div>
+
+        </div>
+
+        <button class="back-games"
+                onclick="backToGames()">
+            ← Back to Games
+        </button>
+
+    </section>
+
+</main>
+
+
+<script>
+
+let currentGame = "";
+let level = 1;
+let score = 0;
+let coins = 0;
+let targetHits = 0;
+let targetNeeded = 5;
+let numberAnswer = "";
+let currentColor = "";
+let timer = null;
+
+
+/* HOME */
+
+function goHome(){
+    window.location.href="main.html";
+}
+
+
+/* START GAME */
+
+function startGame(game){
+
+    currentGame = game;
+
+    document.getElementById("gameList").style.display="none";
+    document.getElementById("playScreen").style.display="block";
+
+    level=1;
+    score=0;
+    coins=0;
+
+    updateStats();
+
+    let names={
+        tap:"Tap Target",
+        memory:"Memory Cards",
+        number:"Number Rush",
+        color:"Color Match",
+        quick:"Quick Click"
+    };
+
+    document.getElementById("gameName").innerText=names[game];
+
+    loadGame();
+}
+
+
+/* LOAD LEVEL */
+
+function loadGame(){
+
+    clearInterval(timer);
+
+    document.getElementById("result").style.display="none";
+
+    document.getElementById("levelText").innerText=level;
+
+    document.getElementById("levelProgress").style.width =
+        Math.min(level * 10,100)+"%";
+
+    if(currentGame==="tap"){
+        loadTap();
+    }
+
+    if(currentGame==="memory"){
+        loadMemory();
+    }
+
+    if(currentGame==="number"){
+        loadNumber();
+    }
+
+    if(currentGame==="color"){
+        loadColor();
+    }
+
+    if(currentGame==="quick"){
+        loadQuick();
+    }
+}
+
+
+/* TAP TARGET */
+
+function loadTap(){
+
+    targetHits=0;
+
+    let target=document.getElementById("target");
+
+    document.getElementById("instruction").innerText=
+        "Tap the target "+targetNeeded+" times!";
+
+    target.style.display="flex";
+
+    moveTarget();
+}
+
+function moveTarget(){
+
+    let box=document.getElementById("gameBox");
+    let target=document.getElementById("target");
+
+    let maxX=box.clientWidth-target.offsetWidth;
+    let maxY=box.clientHeight-target.offsetHeight;
+
+    let x=Math.random()*maxX;
+    let y=70+Math.random()*(maxY-70);
+
+    target.style.left=x+"px";
+    target.style.top=y+"px";
+}
+
+function hitTarget(){
+
+    targetHits++;
+
+    score += 10;
+    coins += 2;
+
+    updateStats();
+
+    if(targetHits>=targetNeeded){
+
+        document.getElementById("target").style.display="none";
+
+        completeLevel();
+
+    }else{
+
+        moveTarget();
+    }
+}
+
+
+/* MEMORY */
+
+function loadMemory(){
+
+    document.getElementById("instruction").innerText=
+        "Find the matching pairs.";
+
+    let box=document.getElementById("gameBox");
+
+    let grid=document.createElement("div");
+
+    grid.className="memory-grid";
+
+    let symbols=["🍎","🍎","⭐","⭐","🚀","🚀","💎","💎"];
+
+    symbols.sort(()=>Math.random()-.5);
+
+    let opened=[];
+
+    symbols.forEach((symbol,index)=>{
+
+        let button=document.createElement("button");
+
+        button.className="memory-card";
+        button.innerText="❓";
+
+        button.onclick=function(){
+
+            if(button.classList.contains("open") ||
+               button.classList.contains("done") ||
+               opened.length>=2) return;
+
+            button.classList.add("open");
+            button.innerText=symbol;
+
+            opened.push({
+                button:button,
+                symbol:symbol
+            });
+
+            if(opened.length===2){
+
+                setTimeout(()=>{
+
+                    if(opened[0].symbol===opened[1].symbol){
+
+                        opened[0].button.classList.add("done");
+                        opened[1].button.classList.add("done");
+
+                        score+=20;
+                        coins+=5;
+
+                    }else{
+
+                        opened[0].button.classList.remove("open");
+                        opened[1].button.classList.remove("open");
+
+                        opened[0].button.innerText="❓";
+                        opened[1].button.innerText="❓";
+                    }
+
+                    opened=[];
+
+                    updateStats();
+
+                    if(
+                        document.querySelectorAll(
+                        ".memory-card.done").length===8
+                    ){
+                        completeLevel();
+                    }
+
+                },600);
+            }
+        };
+
+        grid.appendChild(button);
+    });
+
+    box.innerHTML="";
+    box.appendChild(grid);
+}
+
+
+/* NUMBER */
+
+function loadNumber(){
+
+    let digits=Math.min(3+level,8);
+
+    numberAnswer="";
+
+    for(let i=0;i<digits;i++){
+        numberAnswer += Math.floor(Math.random()*10);
+    }
+
+    let box=document.getElementById("gameBox");
+
+    box.innerHTML=`
+        <div class="number-area">
+
+            <div class="instruction">
+                Remember this number
+            </div>
+
+            <div class="number-display">
+                ${numberAnswer}
+            </div>
+
+            <p style="color:#7d89a3;font-size:12px;">
+                You have 3 seconds...
+            </p>
+
+        </div>
+    `;
+
+    setTimeout(()=>{
+
+        box.innerHTML=`
+
+            <div class="number-area">
+
+                <div class="instruction">
+                    Enter the number
+                </div>
+
+                <input
+                    class="number-input"
+                    id="numberInput"
+                    type="number"
+                    inputmode="numeric"
+                    placeholder="Number">
+
+                <br>
+
+                <button
+                    class="action-btn"
+                    onclick="checkNumber()">
+                    CHECK
+                </button>
+
+            </div>
+        `;
+
+    },3000);
+}
+
+function checkNumber(){
+
+    let input=document.getElementById("numberInput").value;
+
+    if(input===numberAnswer){
+
+        score+=30;
+        coins+=7;
+
+        updateStats();
+
+        completeLevel();
+
+    }else{
+
+        showResult(
+            "Try Again",
+            "The number was "+numberAnswer
+        );
+    }
+}
+
+
+/* COLOR */
+
+function loadColor(){
+
+    let colors=[
+        {name:"RED",value:"#ff375f"},
+        {name:"BLUE",value:"#00a8ff"},
+        {name:"GREEN",value:"#22c55e"},
+        {name:"PURPLE",value:"#8b5cf6"}
+    ];
+
+    let selected=
+        colors[Math.floor(Math.random()*colors.length)];
+
+    currentColor=selected.name;
+
+    let box=document.getElementById("gameBox");
+
+    box.innerHTML=`
+
+        <div class="color-area">
+
+            <div class="instruction">
+                Which color is this?
+            </div>
+
+            <div
+                class="color-box"
+                style="background:${selected.value}">
+            </div>
+
+            <div class="color-options">
+
+                ${colors.map(c=>`
+
+                    <button
+                        onclick="checkColor('${c.name}')">
+                        ${c.name}
+                    </button>
+
+                `).join("")}
+
+            </div>
+
+        </div>
+    `;
+}
+
+function checkColor(color){
+
+    if(color===currentColor){
+
+        score+=20;
+        coins+=5;
+
+        updateStats();
+
+        completeLevel();
+
+    }else{
+
+        showResult(
+            "Wrong!",
+            "Try the next level."
+        );
+    }
+}
+
+
+/* QUICK CLICK */
+
+function loadQuick(){
+
+    targetHits=0;
+
+    document.getElementById("instruction").innerText=
+        "Click the target before time runs out!";
+
+    let target=document.getElementById("target");
+
+    target.style.display="flex";
+
+    let seconds=Math.max(3,7-level/2);
+
+    moveTarget();
+
+    timer=setTimeout(()=>{
+
+        target.style.display="none";
+
+        if(targetHits>=3){
+
+            score+=30;
+            coins+=8;
+
+            updateStats();
+
+            completeLevel();
+
+        }else{
+
+            showResult(
+                "Time Up!",
+                "You need 3 hits."
+            );
+        }
+
+    },seconds*1000);
+}
+
+
+/* RESULT */
+
+function completeLevel(){
+
+    clearInterval(timer);
+
+    document.getElementById("resultTitle").innerText=
+        "Level "+level+" Complete! 🎉";
+
+    document.getElementById("resultText").innerText=
+        "You earned coins. Get ready for Level "+(level+1)+".";
+
+    document.getElementById("result").style.display="flex";
+}
+
+function showResult(title,text){
+
+    clearInterval(timer);
+
+    document.getElementById("resultTitle").innerText=title;
+    document.getElementById("resultText").innerText=text;
+    document.getElementById("result").style.display="flex";
+}
+
+
+/* NEXT LEVEL */
+
+function nextLevel(){
+
+    level++;
+
+    /*
+       Level တက်လာတာနဲ့
+       Tap target အရေအတွက် တိုးမယ်
+       Number digit တိုးမယ်
+       Quick Click အချိန် လျော့မယ်
+    */
+
+    targetNeeded=Math.min(5+level-1,12);
+
+    loadGame();
+}
+
+
+/* STATS */
+
+function updateStats(){
+
+    document.getElementById("score").innerText=score;
+    document.getElementById("coins").innerText=coins;
+
+}
+
+
+/* BACK */
+
+function backToGames(){
+
+    clearInterval(timer);
+
+    document.getElementById("playScreen").style.display="none";
+    document.getElementById("gameList").style.display="block";
+
+}
+
+</script>
+
+</body>
+  </html>
