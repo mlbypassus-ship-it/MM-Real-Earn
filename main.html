@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM-Real-Earn</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#07111f;
+  color:white;
+  min-height:100vh;
+}
+
+.header{
+  padding:20px;
+  background:#0b1b2d;
+  font-size:23px;
+  font-weight:bold;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:22px 18px 100px;
+}
+
+.welcome{
+  margin-bottom:20px;
+}
+
+.welcome h2{
+  font-size:25px;
+}
+
+.email{
+  color:#91a4b8;
+  font-size:14px;
+  margin-top:7px;
+}
+
+.balance{
+  background:#075985;
+  border-radius:20px;
+  padding:25px;
+  margin-bottom:25px;
+}
+
+.balance small{
+  color:#c9efff;
+}
+
+.money{
+  font-size:32px;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.points{
+  margin-top:8px;
+  color:#c9efff;
+}
+
+.title{
+  margin-bottom:14px;
+  font-size:19px;
+}
+
+.menu{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.card{
+  text-decoration:none;
+  color:white;
+  background:#10243a;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  padding:22px 16px;
+  min-height:125px;
+}
+
+.icon{
+  font-size:30px;
+  margin-bottom:10px;
+}
+
+.card h3{
+  font-size:16px;
+}
+
+.card p{
+  color:#91a4b8;
+  font-size:12px;
+  margin-top:6px;
+}
+
+.logout{
+  cursor:pointer;
+}
+
+.bottom{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:70px;
+  background:#081523;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  justify-content:center;
+}
+
+.bottom a{
+  flex:1;
+  max-width:170px;
+  text-align:center;
+  padding-top:12px;
+  color:#91a4b8;
+  text-decoration:none;
+  font-size:12px;
+}
+
+.bottom span{
+  display:block;
+  font-size:21px;
+  margin-bottom:3px;
+}
+
+#status{
+  text-align:center;
+  color:#ef4444;
+  margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  MM-Real-Earn
+</header>
+
+<main class="container">
+
+  <div class="welcome">
+    <h2>Welcome 👋</h2>
+    <div class="email" id="email">Loading...</div>
+  </div>
+
+  <div class="balance">
+    <small>Available Balance</small>
+    <div class="money" id="balance">Loading...</div>
+    <div class="points">
+      ⭐ <span id="points">0</span> Points
+    </div>
+  </div>
+
+  <div class="title">Account</div>
+
+  <div class="menu">
+
+    <a class="card" href="profile2.html">
+      <div class="icon">👤</div>
+      <h3>Profile</h3>
+      <p>View your profile</p>
+    </a>
+
+    <a class="card" href="withdraw.html">
+      <div class="icon">💸</div>
+      <h3>Withdraw</h3>
+      <p>Request withdrawal</p>
+    </a>
+
+    <a class="card" href="customer.html">
+      <div class="icon">🎧</div>
+      <h3>Customer Service</h3>
+      <p>Get support</p>
+    </a>
+
+    <div class="card logout" onclick="signOut()">
+      <div class="icon">🚪</div>
+      <h3>Sign Out</h3>
+      <p>Logout account</p>
+    </div>
+
+  </div>
+
+  <div id="status"></div>
+
+</main>
+
+<nav class="bottom">
+
+  <a href="main.html">
+    <span>⌂</span>
+    Home
+  </a>
+
+  <a href="profile2.html">
+    <span>👤</span>
+    Profile
+  </a>
+
+  <a href="withdraw.html">
+    <span>💸</span>
+    Withdraw
+  </a>
+
+  <a href="customer.html">
+    <span>🎧</span>
+    Support
+  </a>
+
+</nav>
+
+<script>
+
+const SUPABASE_URL =
+"https://acclbthzfzrfbwyslpvv.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_PxrCIfh0MfL6KT1iQxgqfw__IgNG1OY";
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function loadHome(){
+
+  const {
+    data:{session},
+    error
+  } = await supabaseClient.auth.getSession();
+
+  if(error || !session){
+    window.location.href="index.html";
+    return;
+  }
+
+  const user=session.user;
+
+  document.getElementById("email").textContent =
+    user.email;
+
+  const {data:profile,error:profileError} =
+    await supabaseClient
+    .from("profiles")
+    .select("username,balance,points")
+    .eq("id",user.id)
+    .single();
+
+  if(profileError){
+    console.error(profileError);
+    document.getElementById("status").textContent =
+      "Unable to load profile.";
+    return;
+  }
+
+  document.getElementById("balance").textContent =
+    Number(profile.balance || 0).toLocaleString()+" MMK";
+
+  document.getElementById("points").textContent =
+    Number(profile.points || 0).toLocaleString();
+}
+
+async function signOut(){
+
+  const {error} =
+    await supabaseClient.auth.signOut();
+
+  if(error){
+    document.getElementById("status").textContent =
+      error.message;
+    return;
+  }
+
+  window.location.href="index.html";
+}
+
+loadHome();
+
+</script>
+
+</body>
+</html>
