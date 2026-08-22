@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MM-Real-Earn | Sign Up</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #07111f, #102a43, #07111f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: white;
+    }
+
+    .signup-box {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 24px;
+      padding: 32px 24px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo h1 {
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .logo p {
+      margin-top: 8px;
+      color: #b9c7d8;
+      font-size: 14px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 8px;
+      font-size: 14px;
+      color: #dbe7f5;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 15px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      outline: none;
+      background: rgba(0,0,0,0.22);
+      color: white;
+      font-size: 15px;
+    }
+
+    input:focus {
+      border-color: #38bdf8;
+    }
+
+    .signup-btn {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #38bdf8;
+      color: #06111c;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .signup-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #b9c7d8;
+    }
+
+    .login-link a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      min-height: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="signup-box">
+
+    <div class="logo">
+      <h1>MM-Real-Earn</h1>
+      <p>Create your account</p>
+    </div>
+
+    <form id="signupForm">
+
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        required
+      >
+
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Create a password"
+        minlength="6"
+        required
+      >
+
+      <label for="confirmPassword">Confirm Password</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm your password"
+        minlength="6"
+        required
+      >
+
+      <button class="signup-btn" id="signupBtn" type="submit">
+        Create Account
+      </button>
+
+    </form>
+
+    <div id="message"></div>
+
+    <div class="login-link">
+      Already have an account?
+      <a href="index.html">Login</a>
+    </div>
+
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://acclbthzfzrfbwyslpvv.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_PxrCIfh0MfL6KT1iQxgqfw__IgNG1OY";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+    const signupForm = document.getElementById("signupForm");
+    const signupBtn = document.getElementById("signupBtn");
+    const message = document.getElementById("message");
+
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        message.textContent = "Passwords do not match.";
+        return;
+      }
+
+      signupBtn.disabled = true;
+      signupBtn.textContent = "Creating account...";
+      message.textContent = "";
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+          email: email,
+          password: password
+        });
+
+      if (error) {
+        message.textContent = error.message;
+        signupBtn.disabled = false;
+        signupBtn.textContent = "Create Account";
+        return;
+      }
+
+      if (data.session) {
+        window.location.href = "home.html";
+        return;
+      }
+
+      message.textContent =
+        "Account created. Please check your email to confirm your account.";
+
+      signupBtn.disabled = false;
+      signupBtn.textContent = "Create Account";
+    });
+  </script>
+
+</body>
+</html>
