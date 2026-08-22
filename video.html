@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=no">
+
+<title>MM Real Earn - Video Reward</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000;
+    color:#fff;
+}
+
+#feed{
+    width:100%;
+    height:100vh;
+    height:100dvh;
+    overflow-y:auto;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+}
+
+.video-page{
+    width:100%;
+    height:100vh;
+    height:100dvh;
+    position:relative;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    background:#000;
+    overflow:hidden;
+}
+
+/* YOUTUBE PLAYER */
+
+.player{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#000;
+}
+
+.player iframe{
+    width:100%;
+    height:100%;
+    border:0;
+}
+
+/*
+   YouTube video itself is normally 16:9.
+   This container keeps the viewing area
+   full-screen like a short-video feed.
+*/
+
+/* TOP */
+
+.top{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:75px;
+    padding:15px 17px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    z-index:5;
+
+    background:linear-gradient(
+        rgba(0,0,0,.7),
+        transparent
+    );
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo{
+    width:40px;
+    height:40px;
+    border-radius:13px;
+    background:linear-gradient(
+        135deg,
+        #00e5ff,
+        #6658e8
+    );
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:900;
+    font-size:19px;
+
+    box-shadow:
+        0 0 20px rgba(0,229,255,.35);
+}
+
+.brand-name{
+    font-weight:800;
+    font-size:16px;
+}
+
+.brand-name span{
+    color:#00e5ff;
+}
+
+.back{
+    width:40px;
+    height:40px;
+    border:0;
+    border-radius:12px;
+    background:rgba(0,0,0,.5);
+    color:#fff;
+    font-size:23px;
+}
+
+/* RIGHT BUTTONS */
+
+.actions{
+    position:absolute;
+    right:12px;
+    bottom:125px;
+
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+
+    z-index:5;
+}
+
+.action{
+    width:48px;
+    height:48px;
+    border:0;
+    border-radius:50%;
+
+    background:rgba(0,0,0,.58);
+    color:#fff;
+
+    font-size:21px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.reward{
+    background:linear-gradient(
+        135deg,
+        #00bcd4,
+        #6658e8
+    );
+}
+
+/* BOTTOM INFO */
+
+.info{
+    position:absolute;
+    left:17px;
+    right:75px;
+    bottom:28px;
+    z-index:5;
+
+    text-shadow:
+        0 2px 8px rgba(0,0,0,.9);
+}
+
+.channel{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:9px;
+}
+
+.channel-dot{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:linear-gradient(
+        135deg,
+        #ff0033,
+        #ff6a00
+    );
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:14px;
+}
+
+.channel-name{
+    font-weight:800;
+    font-size:14px;
+}
+
+.follow{
+    border:1px solid rgba(255,255,255,.7);
+    background:rgba(0,0,0,.35);
+    color:#fff;
+    padding:5px 10px;
+    border-radius:8px;
+    font-size:10px;
+}
+
+.video-title{
+    font-size:15px;
+    line-height:1.45;
+    font-weight:600;
+}
+
+.reward-text{
+    margin-top:8px;
+    display:inline-block;
+
+    padding:7px 10px;
+    border-radius:10px;
+
+    background:rgba(0,0,0,.55);
+    color:#00e5ff;
+
+    font-size:11px;
+    font-weight:bold;
+}
+
+/* PROGRESS */
+
+.progress{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:3px;
+    background:rgba(255,255,255,.2);
+
+    z-index:8;
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+
+    background:#00e5ff;
+
+    transition:width .2s linear;
+}
+
+/* LOADING */
+
+.loading{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#05070d;
+    z-index:20;
+
+    flex-direction:column;
+    gap:14px;
+}
+
+.spinner{
+    width:42px;
+    height:42px;
+
+    border:4px solid #1b2740;
+    border-top-color:#00e5ff;
+
+    border-radius:50%;
+
+    animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* EMPTY */
+
+.empty{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-direction:column;
+    text-align:center;
+
+    padding:30px;
+
+    background:#070b16;
+}
+
+.empty-icon{
+    font-size:55px;
+    margin-bottom:15px;
+}
+
+.empty h2{
+    font-size:21px;
+    margin-bottom:8px;
+}
+
+.empty p{
+    color:#8994ac;
+    font-size:13px;
+    line-height:1.6;
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+
+    body{
+        background:#080b14;
+    }
+
+    #feed{
+        max-width:500px;
+        margin:auto;
+        box-shadow:
+            0 0 50px rgba(0,0,0,.7);
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div id="feed">
+
+    <!-- VIDEO 1 -->
+
+    <section class="video-page">
+
+        <div class="player">
+
+            <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&playsinline=1"
+                allow="
+                    autoplay;
+                    encrypted-media;
+                    picture-in-picture;
+                    fullscreen
+                "
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+
+        <div class="top">
+
+            <div class="brand">
+
+                <div class="logo">
+                    M
+                </div>
+
+                <div class="brand-name">
+                    MM <span>REAL</span> EARN
+                </div>
+
+            </div>
+
+            <button
+                class="back"
+                onclick="goHome()">
+                ‹
+            </button>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="action"
+                onclick="likeVideo(this)">
+                ❤️
+            </button>
+
+            <button
+                class="action reward"
+                onclick="claimReward(this)">
+                🪙
+            </button>
+
+            <button
+                class="action"
+                onclick="shareVideo()">
+                ↗
+            </button>
+
+        </div>
+
+
+        <div class="info">
+
+            <div class="channel">
+
+                <div class="channel-dot">
+                    ▶
+                </div>
+
+                <div class="channel-name">
+                    @mlbypassus
+                </div>
+
+                <button class="follow">
+                    FOLLOW
+                </button>
+
+            </div>
+
+            <div class="video-title">
+                Your YouTube video will appear here
+            </div>
+
+            <div class="reward-text">
+                🪙 Watch to earn reward
+            </div>
+
+        </div>
+
+
+        <div class="progress">
+            <div class="progress-bar"></div>
+        </div>
+
+    </section>
+
+
+    <!-- VIDEO 2 -->
+
+    <section class="video-page">
+
+        <div class="player">
+
+            <iframe
+                src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=0&playsinline=1"
+                allow="
+                    autoplay;
+                    encrypted-media;
+                    picture-in-picture;
+                    fullscreen
+                "
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+
+        <div class="top">
+
+            <div class="brand">
+
+                <div class="logo">
+                    M
+                </div>
+
+                <div class="brand-name">
+                    MM <span>REAL</span> EARN
+                </div>
+
+            </div>
+
+            <button
+                class="back"
+                onclick="goHome()">
+                ‹
+            </button>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                class="action"
+                onclick="likeVideo(this)">
+                ❤️
+            </button>
+
+            <button
+                class="action reward"
+                onclick="claimReward(this)">
+                🪙
+            </button>
+
+            <button
+                class="action"
+                onclick="shareVideo()">
+                ↗
+            </button>
+
+        </div>
+
+
+        <div class="info">
+
+            <div class="channel">
+
+                <div class="channel-dot">
+                    ▶
+                </div>
+
+                <div class="channel-name">
+                    @mlbypassus
+                </div>
+
+                <button class="follow">
+                    FOLLOW
+                </button>
+
+            </div>
+
+            <div class="video-title">
+                Video Reward
+            </div>
+
+            <div class="reward-text">
+                🪙 Watch to earn reward
+            </div>
+
+        </div>
+
+
+        <div class="progress">
+            <div class="progress-bar"></div>
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+/* HOME */
+
+function goHome(){
+
+    window.location.href="main.html";
+
+}
+
+
+/* LIKE */
+
+function likeVideo(button){
+
+    if(button.innerText==="❤️"){
+
+        button.innerText="💖";
+
+    }else{
+
+        button.innerText="❤️";
+
+    }
+
+}
+
+
+/* REWARD */
+
+function claimReward(button){
+
+    button.innerText="✅";
+
+    button.disabled=true;
+
+    alert("Reward added!");
+
+}
+
+
+/* SHARE */
+
+function shareVideo(){
+
+    if(navigator.share){
+
+        navigator.share({
+
+            title:"MM Real Earn",
+
+            text:"Watch this video on MM Real Earn"
+
+        });
+
+    }else{
+
+        alert("Share link copied!");
+
+    }
+
+}
+
+
+/* SIMPLE WATCH PROGRESS */
+
+const pages =
+    document.querySelectorAll(".video-page");
+
+const observer =
+    new IntersectionObserver(
+
+        entries=>{
+
+            entries.forEach(entry=>{
+
+                if(entry.isIntersecting){
+
+                    const bar =
+                        entry.target.querySelector(
+                            ".progress-bar"
+                        );
+
+                    let progress=0;
+
+                    clearInterval(
+                        entry.target.watchTimer
+                    );
+
+                    entry.target.watchTimer =
+                        setInterval(()=>{
+
+                            progress += 1;
+
+                            bar.style.width =
+                                progress+"%";
+
+                            if(progress>=100){
+
+                                clearInterval(
+                                    entry.target.watchTimer
+                                );
+
+                            }
+
+                        },1000);
+
+                }
+
+            });
+
+        },
+
+        {
+            threshold:.7
+        }
+
+    );
+
+
+pages.forEach(page=>{
+
+    observer.observe(page);
+
+});
+
+</script>
+
+</body>
+  </html>
