@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-               maximum-scale=1.0, user-scalable=no">
+content="width=device-width, initial-scale=1.0">
 
 <title>MM Real Earn - Video Reward</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -18,88 +19,76 @@
 
 html,body{
     width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#000;
+    min-height:100%;
+    background:#070b16;
     color:#fff;
+}
+
+body{
+    overflow-x:hidden;
 }
 
 #feed{
     width:100%;
-    height:100vh;
-    height:100dvh;
-    overflow-y:auto;
-    scroll-snap-type:y mandatory;
-    scroll-behavior:smooth;
+    min-height:100vh;
 }
 
 .video-page{
     width:100%;
-    height:100vh;
-    height:100dvh;
+    min-height:100vh;
+    background:#070b16;
     position:relative;
-    scroll-snap-align:start;
-    scroll-snap-stop:always;
-    background:#000;
-    overflow:hidden;
+    padding-bottom:25px;
 }
 
-/* YOUTUBE PLAYER */
+/* YOUTUBE 16:9 PLAYER */
 
 .player{
-    position:absolute;
-    inset:0;
     width:100%;
-    height:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    aspect-ratio:16 / 9;
     background:#000;
+    position:relative;
 }
 
 .player iframe{
+    position:absolute;
+    top:0;
+    left:0;
     width:100%;
     height:100%;
     border:0;
 }
 
-/*
-   YouTube video itself is normally 16:9.
-   This container keeps the viewing area
-   full-screen like a short-video feed.
-*/
-
-/* TOP */
+/* TOP BAR */
 
 .top{
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    height:75px;
-    padding:15px 17px;
+    height:65px;
+    padding:10px 15px;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
-    z-index:5;
 
-    background:linear-gradient(
-        rgba(0,0,0,.7),
-        transparent
-    );
+    background:#0c1223;
+
+    border-bottom:1px solid
+    rgba(255,255,255,.07);
 }
 
 .brand{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:9px;
 }
 
 .logo{
     width:40px;
     height:40px;
+
     border-radius:13px;
-    background:linear-gradient(
+
+    background:
+    linear-gradient(
         135deg,
         #00e5ff,
         #6658e8
@@ -113,12 +102,13 @@ html,body{
     font-size:19px;
 
     box-shadow:
-        0 0 20px rgba(0,229,255,.35);
+    0 0 18px
+    rgba(0,229,255,.3);
 }
 
 .brand-name{
-    font-weight:800;
     font-size:16px;
+    font-weight:800;
 }
 
 .brand-name span{
@@ -128,75 +118,38 @@ html,body{
 .back{
     width:40px;
     height:40px;
+
     border:0;
     border-radius:12px;
-    background:rgba(0,0,0,.5);
+
+    background:#18233c;
+
     color:#fff;
-    font-size:23px;
+    font-size:24px;
 }
 
-/* RIGHT BUTTONS */
-
-.actions{
-    position:absolute;
-    right:12px;
-    bottom:125px;
-
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-
-    z-index:5;
-}
-
-.action{
-    width:48px;
-    height:48px;
-    border:0;
-    border-radius:50%;
-
-    background:rgba(0,0,0,.58);
-    color:#fff;
-
-    font-size:21px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.reward{
-    background:linear-gradient(
-        135deg,
-        #00bcd4,
-        #6658e8
-    );
-}
-
-/* BOTTOM INFO */
+/* VIDEO INFO */
 
 .info{
-    position:absolute;
-    left:17px;
-    right:75px;
-    bottom:28px;
-    z-index:5;
-
-    text-shadow:
-        0 2px 8px rgba(0,0,0,.9);
+    padding:17px;
+    background:#0c1223;
 }
 
 .channel{
     display:flex;
     align-items:center;
-    gap:8px;
-    margin-bottom:9px;
+    gap:9px;
+    margin-bottom:13px;
 }
 
 .channel-dot{
-    width:30px;
-    height:30px;
+    width:35px;
+    height:35px;
+
     border-radius:50%;
-    background:linear-gradient(
+
+    background:
+    linear-gradient(
         135deg,
         #ff0033,
         #ff6a00
@@ -206,55 +159,106 @@ html,body{
     align-items:center;
     justify-content:center;
 
-    font-size:14px;
+    font-size:15px;
 }
 
 .channel-name{
-    font-weight:800;
     font-size:14px;
+    font-weight:800;
+    flex:1;
 }
 
 .follow{
-    border:1px solid rgba(255,255,255,.7);
-    background:rgba(0,0,0,.35);
+    border:1px solid
+    rgba(255,255,255,.3);
+
+    background:#18233c;
+
     color:#fff;
-    padding:5px 10px;
-    border-radius:8px;
+
+    padding:7px 11px;
+
+    border-radius:9px;
+
     font-size:10px;
+    font-weight:bold;
 }
 
 .video-title{
-    font-size:15px;
+    font-size:16px;
     line-height:1.45;
     font-weight:600;
+    margin-bottom:10px;
 }
 
 .reward-text{
-    margin-top:8px;
     display:inline-block;
 
-    padding:7px 10px;
+    padding:8px 11px;
+
     border-radius:10px;
 
-    background:rgba(0,0,0,.55);
+    background:#111d34;
+
     color:#00e5ff;
 
     font-size:11px;
     font-weight:bold;
 }
 
+/* ACTIONS */
+
+.actions{
+    display:flex;
+    gap:10px;
+
+    padding:12px 17px;
+
+    background:#0c1223;
+
+    border-top:1px solid
+    rgba(255,255,255,.05);
+}
+
+.action{
+    width:48px;
+    height:42px;
+
+    border:0;
+    border-radius:12px;
+
+    background:#17223a;
+
+    color:#fff;
+
+    font-size:19px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.reward{
+    background:
+    linear-gradient(
+        135deg,
+        #00bcd4,
+        #6658e8
+    );
+
+    flex:1;
+
+    font-size:13px;
+    font-weight:bold;
+}
+
 /* PROGRESS */
 
 .progress{
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:0;
-
+    width:100%;
     height:3px;
-    background:rgba(255,255,255,.2);
 
-    z-index:8;
+    background:#1a253c;
 }
 
 .progress-bar{
@@ -263,76 +267,13 @@ html,body{
 
     background:#00e5ff;
 
-    transition:width .2s linear;
+    transition:.2s;
 }
 
-/* LOADING */
+/* SECOND VIDEO GAP */
 
-.loading{
-    position:absolute;
-    inset:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:#05070d;
-    z-index:20;
-
-    flex-direction:column;
-    gap:14px;
-}
-
-.spinner{
-    width:42px;
-    height:42px;
-
-    border:4px solid #1b2740;
-    border-top-color:#00e5ff;
-
-    border-radius:50%;
-
-    animation:spin .8s linear infinite;
-}
-
-@keyframes spin{
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-/* EMPTY */
-
-.empty{
-    position:absolute;
-    inset:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    flex-direction:column;
-    text-align:center;
-
-    padding:30px;
-
-    background:#070b16;
-}
-
-.empty-icon{
-    font-size:55px;
-    margin-bottom:15px;
-}
-
-.empty h2{
-    font-size:21px;
-    margin-bottom:8px;
-}
-
-.empty p{
-    color:#8994ac;
-    font-size:13px;
-    line-height:1.6;
+.video-page + .video-page{
+    margin-top:18px;
 }
 
 /* DESKTOP */
@@ -340,17 +281,20 @@ html,body{
 @media(min-width:700px){
 
     body{
-        background:#080b14;
+        background:#050811;
     }
 
-    #feed{
-        max-width:500px;
+    .video-page{
+        max-width:700px;
         margin:auto;
+
         box-shadow:
-            0 0 50px rgba(0,0,0,.7);
+        0 0 50px
+        rgba(0,0,0,.45);
     }
 
 }
+
 </style>
 </head>
 
@@ -358,208 +302,233 @@ html,body{
 
 <div id="feed">
 
-    <!-- VIDEO 1 -->
 
-    <section class="video-page">
+<!-- VIDEO 1 -->
 
-        <div class="player">
+<section class="video-page">
 
-            <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&playsinline=1"
-                allow="
-                    autoplay;
-                    encrypted-media;
-                    picture-in-picture;
-                    fullscreen
-                "
-                allowfullscreen>
-            </iframe>
+    <div class="player">
+
+        <iframe
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&playsinline=1"
+        allow="
+        autoplay;
+        encrypted-media;
+        picture-in-picture;
+        fullscreen"
+        allowfullscreen>
+        </iframe>
+
+    </div>
+
+
+    <div class="top">
+
+        <div class="brand">
+
+            <div class="logo">
+                M
+            </div>
+
+            <div class="brand-name">
+                MM <span>REAL</span> EARN
+            </div>
 
         </div>
 
+        <button
+        class="back"
+        onclick="goHome()">
 
-        <div class="top">
+            ‹
 
-            <div class="brand">
+        </button>
 
-                <div class="logo">
-                    M
-                </div>
+    </div>
 
-                <div class="brand-name">
-                    MM <span>REAL</span> EARN
-                </div>
 
+    <div class="info">
+
+        <div class="channel">
+
+            <div class="channel-dot">
+                ▶
             </div>
 
-            <button
-                class="back"
-                onclick="goHome()">
-                ‹
+            <div class="channel-name">
+                @mlbypassus
+            </div>
+
+            <button class="follow">
+                FOLLOW
             </button>
 
         </div>
 
 
-        <div class="actions">
-
-            <button
-                class="action"
-                onclick="likeVideo(this)">
-                ❤️
-            </button>
-
-            <button
-                class="action reward"
-                onclick="claimReward(this)">
-                🪙
-            </button>
-
-            <button
-                class="action"
-                onclick="shareVideo()">
-                ↗
-            </button>
-
+        <div class="video-title">
+            Your YouTube video will appear here
         </div>
 
 
-        <div class="info">
-
-            <div class="channel">
-
-                <div class="channel-dot">
-                    ▶
-                </div>
-
-                <div class="channel-name">
-                    @mlbypassus
-                </div>
-
-                <button class="follow">
-                    FOLLOW
-                </button>
-
-            </div>
-
-            <div class="video-title">
-                Your YouTube video will appear here
-            </div>
-
-            <div class="reward-text">
-                🪙 Watch to earn reward
-            </div>
-
+        <div class="reward-text">
+            🪙 Watch to earn reward
         </div>
 
-
-        <div class="progress">
-            <div class="progress-bar"></div>
-        </div>
-
-    </section>
+    </div>
 
 
-    <!-- VIDEO 2 -->
+    <div class="actions">
 
-    <section class="video-page">
-
-        <div class="player">
-
-            <iframe
-                src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=0&playsinline=1"
-                allow="
-                    autoplay;
-                    encrypted-media;
-                    picture-in-picture;
-                    fullscreen
-                "
-                allowfullscreen>
-            </iframe>
-
-        </div>
+        <button
+        class="action"
+        onclick="likeVideo(this)">
+            ❤️
+        </button>
 
 
-        <div class="top">
+        <button
+        class="action reward"
+        onclick="claimReward(this)">
 
-            <div class="brand">
+            🪙 Claim Reward
 
-                <div class="logo">
-                    M
-                </div>
+        </button>
 
-                <div class="brand-name">
-                    MM <span>REAL</span> EARN
-                </div>
 
+        <button
+        class="action"
+        onclick="shareVideo()">
+
+            ↗
+
+        </button>
+
+    </div>
+
+
+    <div class="progress">
+
+        <div class="progress-bar"></div>
+
+    </div>
+
+</section>
+
+
+<!-- VIDEO 2 -->
+
+<section class="video-page">
+
+    <div class="player">
+
+        <iframe
+        src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=0&playsinline=1"
+        allow="
+        autoplay;
+        encrypted-media;
+        picture-in-picture;
+        fullscreen"
+        allowfullscreen>
+        </iframe>
+
+    </div>
+
+
+    <div class="top">
+
+        <div class="brand">
+
+            <div class="logo">
+                M
             </div>
 
-            <button
-                class="back"
-                onclick="goHome()">
-                ‹
-            </button>
-
-        </div>
-
-
-        <div class="actions">
-
-            <button
-                class="action"
-                onclick="likeVideo(this)">
-                ❤️
-            </button>
-
-            <button
-                class="action reward"
-                onclick="claimReward(this)">
-                🪙
-            </button>
-
-            <button
-                class="action"
-                onclick="shareVideo()">
-                ↗
-            </button>
-
-        </div>
-
-
-        <div class="info">
-
-            <div class="channel">
-
-                <div class="channel-dot">
-                    ▶
-                </div>
-
-                <div class="channel-name">
-                    @mlbypassus
-                </div>
-
-                <button class="follow">
-                    FOLLOW
-                </button>
-
-            </div>
-
-            <div class="video-title">
-                Video Reward
-            </div>
-
-            <div class="reward-text">
-                🪙 Watch to earn reward
+            <div class="brand-name">
+                MM <span>REAL</span> EARN
             </div>
 
         </div>
 
 
-        <div class="progress">
-            <div class="progress-bar"></div>
+        <button
+        class="back"
+        onclick="goHome()">
+
+            ‹
+
+        </button>
+
+    </div>
+
+
+    <div class="info">
+
+        <div class="channel">
+
+            <div class="channel-dot">
+                ▶
+            </div>
+
+            <div class="channel-name">
+                @mlbypassus
+            </div>
+
+            <button class="follow">
+                FOLLOW
+            </button>
+
         </div>
 
-    </section>
+
+        <div class="video-title">
+            Video Reward
+        </div>
+
+
+        <div class="reward-text">
+            🪙 Watch to earn reward
+        </div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+        class="action"
+        onclick="likeVideo(this)">
+            ❤️
+        </button>
+
+
+        <button
+        class="action reward"
+        onclick="claimReward(this)">
+
+            🪙 Claim Reward
+
+        </button>
+
+
+        <button
+        class="action"
+        onclick="shareVideo()">
+
+            ↗
+
+        </button>
+
+    </div>
+
+
+    <div class="progress">
+
+        <div class="progress-bar"></div>
+
+    </div>
+
+</section>
+
 
 </div>
 
@@ -579,7 +548,7 @@ function goHome(){
 
 function likeVideo(button){
 
-    if(button.innerText==="❤️"){
+    if(button.innerText.trim()==="❤️"){
 
         button.innerText="💖";
 
@@ -596,7 +565,7 @@ function likeVideo(button){
 
 function claimReward(button){
 
-    button.innerText="✅";
+    button.innerText="✅ Reward Claimed";
 
     button.disabled=true;
 
@@ -628,60 +597,64 @@ function shareVideo(){
 }
 
 
-/* SIMPLE WATCH PROGRESS */
+/* WATCH PROGRESS */
 
 const pages =
-    document.querySelectorAll(".video-page");
+document.querySelectorAll(".video-page");
+
 
 const observer =
-    new IntersectionObserver(
+new IntersectionObserver(
 
-        entries=>{
+    entries=>{
 
-            entries.forEach(entry=>{
+        entries.forEach(entry=>{
 
-                if(entry.isIntersecting){
+            if(entry.isIntersecting){
 
-                    const bar =
-                        entry.target.querySelector(
-                            ".progress-bar"
+                const bar =
+                entry.target.querySelector(
+                    ".progress-bar"
+                );
+
+                let progress=0;
+
+
+                clearInterval(
+                    entry.target.watchTimer
+                );
+
+
+                entry.target.watchTimer =
+                setInterval(()=>{
+
+                    progress += 1;
+
+                    bar.style.width =
+                    progress+"%";
+
+
+                    if(progress>=100){
+
+                        clearInterval(
+                            entry.target.watchTimer
                         );
 
-                    let progress=0;
+                    }
 
-                    clearInterval(
-                        entry.target.watchTimer
-                    );
+                },1000);
 
-                    entry.target.watchTimer =
-                        setInterval(()=>{
+            }
 
-                            progress += 1;
+        });
 
-                            bar.style.width =
-                                progress+"%";
+    },
 
-                            if(progress>=100){
+    {
+        threshold:.6
+    }
 
-                                clearInterval(
-                                    entry.target.watchTimer
-                                );
-
-                            }
-
-                        },1000);
-
-                }
-
-            });
-
-        },
-
-        {
-            threshold:.7
-        }
-
-    );
+);
 
 
 pages.forEach(page=>{
@@ -693,4 +666,4 @@ pages.forEach(page=>{
 </script>
 
 </body>
-  </html>
+</html>
