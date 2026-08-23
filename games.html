@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MM Real Earn - Games</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MM Real Earn - Premium Games</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -15,77 +13,137 @@
     padding:0;
     box-sizing:border-box;
     font-family:Arial,sans-serif;
+    -webkit-tap-highlight-color:transparent;
 }
 
 body{
-    background:#070b16;
-    color:white;
+    background:
+        radial-gradient(circle at 10% 0%,#18295a 0,transparent 30%),
+        radial-gradient(circle at 100% 30%,#32165b 0,transparent 28%),
+        #060914;
+    color:#fff;
     min-height:100vh;
     padding-bottom:30px;
 }
 
+button{
+    font-family:inherit;
+}
+
 .topbar{
     height:70px;
-    padding:0 18px;
+    padding:0 16px;
     display:flex;
     align-items:center;
-    gap:14px;
-    background:#0c1223;
-    border-bottom:1px solid rgba(255,255,255,.08);
+    gap:12px;
     position:sticky;
     top:0;
     z-index:20;
+    background:rgba(7,10,23,.88);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .back{
-    width:40px;
-    height:40px;
+    width:42px;
+    height:42px;
     border:0;
-    border-radius:12px;
-    background:#17213a;
-    color:white;
+    border-radius:14px;
+    color:#fff;
+    background:#151d36;
     font-size:25px;
 }
 
 .logo{
-    width:40px;
-    height:40px;
-    border-radius:13px;
-    background:linear-gradient(135deg,#00e5ff,#6557e8);
+    width:42px;
+    height:42px;
+    border-radius:14px;
     display:flex;
     align-items:center;
     justify-content:center;
     font-weight:900;
-    box-shadow:0 0 18px rgba(0,229,255,.3);
+    font-size:20px;
+    background:linear-gradient(135deg,#00eaff,#7357ff);
+    box-shadow:0 0 25px rgba(0,220,255,.35);
 }
 
-.title{
+.brand{
     font-size:18px;
-    font-weight:800;
+    font-weight:900;
 }
 
-.title span{
-    color:#00e5ff;
+.brand span{
+    color:#00eaff;
 }
 
 .container{
-    max-width:520px;
+    width:100%;
+    max-width:540px;
     margin:auto;
     padding:18px;
 }
 
-.heading{
-    margin:8px 0 18px;
+.hero{
+    padding:22px 4px 20px;
 }
 
-.heading small{
-    color:#7e8aa6;
+.hero small{
+    color:#8894b4;
+    font-size:12px;
 }
 
-.heading h1{
+.hero h1{
+    margin-top:7px;
+    font-size:30px;
+    line-height:1.15;
+}
+
+.hero h1 span{
+    color:#00eaff;
+}
+
+.hero p{
+    margin-top:8px;
+    color:#7885a5;
+    font-size:12px;
+}
+
+/* BALANCE */
+
+.mini-balance{
+    padding:17px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#111b39,#17112e);
+    border:1px solid rgba(255,255,255,.08);
+    margin-bottom:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.mini-balance small{
+    color:#7f8aa6;
+}
+
+.mini-balance strong{
+    display:block;
     margin-top:5px;
-    font-size:27px;
+    font-size:22px;
+    color:#00eaff;
 }
+
+.balance-icon{
+    width:48px;
+    height:48px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#172a52,#312052);
+    font-size:23px;
+}
+
+/* GAME GRID */
 
 .game-grid{
     display:grid;
@@ -94,237 +152,275 @@ body{
 }
 
 .game-card{
+    position:relative;
+    min-height:175px;
     padding:18px;
-    min-height:165px;
-    border-radius:22px;
-    background:#10182b;
-    border:1px solid rgba(255,255,255,.07);
+    overflow:hidden;
+    border-radius:24px;
     cursor:pointer;
-    transition:.2s;
+    border:1px solid rgba(255,255,255,.09);
+    transition:.18s;
+    box-shadow:0 12px 30px rgba(0,0,0,.22);
 }
 
 .game-card:active{
-    transform:scale(.96);
+    transform:scale(.94);
+}
+
+.game-card::after{
+    content:"";
+    position:absolute;
+    width:100px;
+    height:100px;
+    right:-35px;
+    top:-35px;
+    border-radius:50%;
+    background:rgba(255,255,255,.12);
+}
+
+.game-card.blue{
+    background:linear-gradient(145deg,#102b55,#10162c);
+}
+
+.game-card.purple{
+    background:linear-gradient(145deg,#35165d,#17142e);
+}
+
+.game-card.orange{
+    background:linear-gradient(145deg,#613015,#211523);
+}
+
+.game-card.green{
+    background:linear-gradient(145deg,#104b3b,#101b28);
+}
+
+.game-card.pink{
+    background:linear-gradient(145deg,#601a49,#21142b);
 }
 
 .game-icon{
-    width:55px;
-    height:55px;
-    border-radius:17px;
-    background:#1b2743;
+    width:58px;
+    height:58px;
+    border-radius:19px;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:28px;
+    font-size:30px;
+    background:rgba(255,255,255,.11);
+    box-shadow:inset 0 1px rgba(255,255,255,.12);
     margin-bottom:14px;
 }
 
 .game-card h3{
-    font-size:15px;
-    margin-bottom:6px;
+    font-size:16px;
+    position:relative;
+    z-index:2;
 }
 
 .game-card p{
-    color:#7d89a3;
-    font-size:11px;
+    margin-top:6px;
+    color:#aeb7cc;
+    font-size:10px;
     line-height:1.5;
+    position:relative;
+    z-index:2;
 }
 
-.play-label{
-    margin-top:12px;
-    color:#00e5ff;
+.play{
+    margin-top:13px;
     font-size:11px;
-    font-weight:bold;
+    font-weight:900;
+    color:#fff;
+    position:relative;
+    z-index:2;
 }
+
+/* PLAY SCREEN */
 
 #playScreen{
     display:none;
 }
 
-.game-header{
+.game-top{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:15px;
+    margin-bottom:13px;
 }
 
-.game-name{
-    font-size:20px;
-    font-weight:800;
+.game-title{
+    font-size:21px;
+    font-weight:900;
 }
 
-.level{
-    background:#17213a;
-    border:1px solid rgba(0,229,255,.2);
+.lv{
     padding:9px 13px;
-    border-radius:12px;
-    color:#00e5ff;
+    border-radius:13px;
+    background:#141d37;
+    color:#00eaff;
+    border:1px solid rgba(0,234,255,.18);
     font-size:12px;
-    font-weight:bold;
+    font-weight:900;
 }
 
 .stats{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:10px;
-    margin-bottom:15px;
 }
 
 .stat{
-    background:#10182b;
-    border-radius:15px;
     padding:13px;
+    border-radius:16px;
     text-align:center;
+    background:rgba(18,25,46,.9);
+    border:1px solid rgba(255,255,255,.07);
 }
 
 .stat small{
     display:block;
-    color:#7d89a3;
-    font-size:10px;
-    margin-bottom:5px;
+    color:#75819d;
+    font-size:9px;
 }
 
 .stat strong{
-    font-size:18px;
+    display:block;
+    margin-top:5px;
+    font-size:19px;
 }
 
-.level-bar{
+.progress{
     height:6px;
-    background:#18233c;
+    margin:13px 0;
+    background:#141c32;
     border-radius:20px;
-    margin-top:10px;
     overflow:hidden;
 }
 
-.level-progress{
+.progress div{
     height:100%;
     width:10%;
-    background:linear-gradient(90deg,#00e5ff,#6557e8);
+    background:linear-gradient(90deg,#00eaff,#7958ff,#ff4fb3);
     transition:.3s;
 }
 
-.reward-box{
-    margin-top:15px;
-    padding:13px;
-    text-align:center;
-    border-radius:15px;
-    background:#10182b;
-    color:#9ca7bf;
-    font-size:12px;
-}
-
-.reward-box strong{
-    color:#00e5ff;
-}
+/* GAME BOX */
 
 .game-box{
-    height:390px;
-    margin-top:18px;
-    border-radius:24px;
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(0,229,255,.08),
-            transparent 45%
-        ),
-        #0c1426;
-    border:1px solid rgba(255,255,255,.08);
     position:relative;
+    min-height:400px;
     overflow:hidden;
+    border-radius:28px;
+    background:
+        radial-gradient(circle at 50% 35%,rgba(0,234,255,.09),transparent 35%),
+        #0b1020;
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 18px 45px rgba(0,0,0,.35);
 }
 
 .instruction{
     text-align:center;
-    padding:20px;
-    color:#9ca7bf;
+    padding:22px 15px;
+    color:#9ba6bd;
     font-size:13px;
 }
 
+/* TAP */
+
 .target{
     position:absolute;
-    width:58px;
-    height:58px;
+    width:65px;
+    height:65px;
     border-radius:50%;
-    background:linear-gradient(135deg,#00e5ff,#6658e8);
-    box-shadow:0 0 25px rgba(0,229,255,.55);
     display:none;
     align-items:center;
     justify-content:center;
-    font-size:20px;
-    font-weight:bold;
+    background:linear-gradient(135deg,#00eaff,#7357ff);
+    box-shadow:
+        0 0 0 8px rgba(0,234,255,.08),
+        0 0 35px rgba(0,234,255,.7);
+    font-size:25px;
+    font-weight:900;
     cursor:pointer;
-    user-select:none;
 }
 
-.memory-grid{
-    padding:20px;
+/* MEMORY */
+
+.memory{
+    padding:15px;
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:8px;
+    gap:9px;
 }
 
-.memory-card{
-    height:65px;
+.memory button{
+    height:72px;
     border:0;
-    border-radius:12px;
-    background:#192541;
-    color:white;
-    font-size:20px;
+    border-radius:15px;
+    background:linear-gradient(145deg,#18233f,#10182d);
+    color:#fff;
+    font-size:25px;
     cursor:pointer;
 }
 
-.memory-card.open{
-    background:#6658e8;
+.memory button.open{
+    background:linear-gradient(135deg,#7357ff,#b44cff);
 }
 
-.memory-card.done{
-    background:#087f8e;
+.memory button.done{
+    background:linear-gradient(135deg,#00b894,#087f73);
 }
 
-.number-area{
+/* NUMBER */
+
+.number{
     text-align:center;
-    padding-top:50px;
+    padding:50px 20px;
 }
 
 .number-display{
-    font-size:48px;
+    font-size:46px;
     font-weight:900;
-    margin-bottom:25px;
-    color:#00e5ff;
+    color:#00eaff;
+    letter-spacing:5px;
+    margin:20px 0;
 }
 
 .number-input{
-    width:80%;
+    width:90%;
     padding:15px;
-    border:0;
-    outline:none;
-    border-radius:13px;
-    background:#18243f;
-    color:white;
+    border:1px solid rgba(255,255,255,.08);
+    outline:0;
+    border-radius:15px;
+    background:#151f38;
+    color:#fff;
     text-align:center;
     font-size:20px;
 }
 
-.action-btn{
+.action{
+    margin-top:13px;
+    padding:13px 27px;
     border:0;
-    margin-top:14px;
-    padding:13px 25px;
-    border-radius:13px;
-    color:white;
-    background:linear-gradient(135deg,#00bcd4,#6557e8);
-    font-weight:bold;
+    border-radius:14px;
+    color:#fff;
+    font-weight:900;
+    background:linear-gradient(135deg,#00bcd4,#7357ff);
 }
 
-.color-area{
-    padding-top:35px;
+/* COLOR */
+
+.color{
     text-align:center;
+    padding-top:35px;
 }
 
-.color-box{
-    width:120px;
-    height:120px;
-    border-radius:25px;
+.color-square{
+    width:140px;
+    height:140px;
     margin:20px auto;
+    border-radius:30px;
+    box-shadow:0 15px 35px rgba(0,0,0,.35);
 }
 
 .color-options{
@@ -336,43 +432,79 @@ body{
 
 .color-options button{
     border:0;
-    padding:14px;
-    border-radius:13px;
-    color:white;
-    background:#192541;
-    font-weight:bold;
+    padding:15px;
+    border-radius:14px;
+    background:#17213b;
+    color:#fff;
+    font-weight:900;
 }
 
+/* QUICK */
+
+.quick{
+    text-align:center;
+    padding-top:40px;
+}
+
+.quick-count{
+    font-size:48px;
+    font-weight:900;
+    color:#ffca3a;
+}
+
+.quick-timer{
+    margin-top:10px;
+    color:#ff5c8a;
+    font-weight:900;
+}
+
+.quick-btn{
+    width:110px;
+    height:110px;
+    border:0;
+    border-radius:50%;
+    margin-top:45px;
+    font-size:28px;
+    color:#fff;
+    background:linear-gradient(135deg,#ff416c,#ff9a44);
+    box-shadow:0 0 40px rgba(255,75,110,.45);
+}
+
+/* RESULT */
+
 .result{
-    display:none;
     position:absolute;
     inset:0;
-    background:rgba(7,11,22,.97);
+    display:none;
     align-items:center;
     justify-content:center;
     flex-direction:column;
     text-align:center;
+    padding:25px;
+    background:rgba(5,8,18,.97);
     z-index:10;
-    padding:20px;
 }
 
-.result h2{
-    font-size:28px;
-    margin-bottom:10px;
+.reward{
+    font-size:40px;
+    font-weight:900;
+    color:#00eaff;
+    margin:12px 0 20px;
 }
 
 .result p{
-    color:#9da8c0;
-    margin-bottom:18px;
+    color:#8995ae;
+    font-size:12px;
+    margin-bottom:20px;
 }
 
-.result button{
+.next{
     border:0;
-    padding:13px 25px;
-    border-radius:13px;
-    background:#6557e8;
-    color:white;
-    font-weight:bold;
+    padding:14px 27px;
+    border-radius:15px;
+    color:#fff;
+    font-weight:900;
+    background:linear-gradient(135deg,#00bcd4,#7357ff);
 }
 
 .back-games{
@@ -380,15 +512,10 @@ body{
     margin-top:15px;
     padding:14px;
     border:0;
-    border-radius:14px;
-    background:#151f35;
-    color:white;
-}
-
-.reward-loading{
-    font-size:12px;
-    color:#00e5ff;
-    margin-top:8px;
+    border-radius:15px;
+    background:#151e35;
+    color:#fff;
+    font-weight:bold;
 }
 
 @media(max-width:360px){
@@ -397,7 +524,8 @@ body{
     }
 
     .game-card{
-        padding:14px;
+        min-height:165px;
+        padding:15px;
     }
 }
 </style>
@@ -406,62 +534,64 @@ body{
 <body>
 
 <header class="topbar">
-
     <button class="back" onclick="goHome()">‹</button>
-
     <div class="logo">M</div>
-
-    <div class="title">
-        MM <span>REAL</span> EARN
-    </div>
-
+    <div class="brand">MM <span>REAL</span> EARN</div>
 </header>
-
 
 <main class="container">
 
 <section id="gameList">
 
-    <div class="heading">
-        <small>Choose your challenge 🎮</small>
-        <h1>Mini Games</h1>
+    <div class="hero">
+        <small>PLAY • WIN • EARN 🎮</small>
+        <h1>Premium <span>Mini Games</span></h1>
+        <p>Choose a game and complete the level to earn MMK.</p>
+    </div>
+
+    <div class="mini-balance">
+        <div>
+            <small>Available Balance</small>
+            <strong id="balance">0 MMK</strong>
+        </div>
+        <div class="balance-icon">💰</div>
     </div>
 
     <div class="game-grid">
 
-        <div class="game-card" onclick="startGame('tap')">
+        <div class="game-card blue" onclick="startGame('tap')">
             <div class="game-icon">🎯</div>
-            <h3>Tap Target</h3>
-            <p>Tap the target as fast as possible.</p>
-            <div class="play-label">▶ PLAY</div>
+            <h3>Tap Master</h3>
+            <p>Hit the glowing target quickly.</p>
+            <div class="play">▶ PLAY NOW</div>
         </div>
 
-        <div class="game-card" onclick="startGame('memory')">
+        <div class="game-card purple" onclick="startGame('memory')">
             <div class="game-icon">🧠</div>
-            <h3>Memory Cards</h3>
-            <p>Remember the cards and match them.</p>
-            <div class="play-label">▶ PLAY</div>
+            <h3>Memory Rush</h3>
+            <p>Match all hidden cards.</p>
+            <div class="play">▶ PLAY NOW</div>
         </div>
 
-        <div class="game-card" onclick="startGame('number')">
+        <div class="game-card orange" onclick="startGame('number')">
             <div class="game-icon">🔢</div>
             <h3>Number Rush</h3>
-            <p>Remember the number and type it.</p>
-            <div class="play-label">▶ PLAY</div>
+            <p>Remember the number before it disappears.</p>
+            <div class="play">▶ PLAY NOW</div>
         </div>
 
-        <div class="game-card" onclick="startGame('color')">
+        <div class="game-card green" onclick="startGame('color')">
             <div class="game-icon">🎨</div>
-            <h3>Color Match</h3>
-            <p>Choose the correct color.</p>
-            <div class="play-label">▶ PLAY</div>
+            <h3>Color Master</h3>
+            <p>Find the correct color.</p>
+            <div class="play">▶ PLAY NOW</div>
         </div>
 
-        <div class="game-card" onclick="startGame('quick')">
+        <div class="game-card pink" onclick="startGame('quick')">
             <div class="game-icon">⚡</div>
-            <h3>Quick Click</h3>
-            <p>Complete the challenge before time runs out.</p>
-            <div class="play-label">▶ PLAY</div>
+            <h3>Quick Fire</h3>
+            <p>Hit the target before time runs out.</p>
+            <div class="play">▶ PLAY NOW</div>
         </div>
 
     </div>
@@ -471,48 +601,25 @@ body{
 
 <section id="playScreen">
 
-    <div class="game-header">
-
-        <div class="game-name" id="gameName">
-            Game
-        </div>
-
-        <div class="level">
-            LV <span id="levelText">1</span>
-        </div>
-
+    <div class="game-top">
+        <div class="game-title" id="gameTitle">Game</div>
+        <div class="lv">LEVEL <span id="level">1</span></div>
     </div>
 
-
     <div class="stats">
-
         <div class="stat">
             <small>SCORE</small>
             <strong id="score">0</strong>
         </div>
-
         <div class="stat">
             <small>COINS</small>
             <strong id="coins">0</strong>
         </div>
-
     </div>
 
-
-    <div class="level-bar">
-        <div class="level-progress" id="levelProgress"></div>
+    <div class="progress">
+        <div id="progress"></div>
     </div>
-
-
-    <div class="reward-box">
-
-        Game Level Win Reward:
-        <strong>10–50 MMK</strong>
-
-        <div class="reward-loading" id="rewardStatus"></div>
-
-    </div>
-
 
     <div class="game-box" id="gameBox">
 
@@ -520,33 +627,18 @@ body{
             Get ready...
         </div>
 
-        <div class="target"
-             id="target"
-             onclick="hitTarget()">
-            +
-        </div>
+        <div class="target" id="target" onclick="hitTarget()">+</div>
 
         <div class="result" id="result">
-
-            <h2 id="resultTitle">
-                Level Complete!
-            </h2>
-
-            <p id="resultText">
-                Great job!
-            </p>
-
-            <button onclick="nextLevel()">
-                Next Level →
-            </button>
-
+            <h2 id="resultTitle">LEVEL COMPLETE 🎉</h2>
+            <div class="reward" id="reward">+0 MMK</div>
+            <p id="resultText">Your reward has been added to your balance.</p>
+            <button class="next" onclick="nextLevel()">NEXT LEVEL →</button>
         </div>
 
     </div>
 
-
-    <button class="back-games"
-            onclick="backToGames()">
+    <button class="back-games" onclick="backToGames()">
         ← Back to Games
     </button>
 
@@ -554,12 +646,10 @@ body{
 
 </main>
 
-
 <script>
-
-/* =====================================================
+/* =========================
    SUPABASE
-===================================================== */
+========================= */
 
 const SUPABASE_URL =
 "https://acclbthzfzrfbwyslpvv.supabase.co";
@@ -567,715 +657,406 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_PxrCIfh0MfL6KT1iQxgqfw__IgNG1OY";
 
-const db =
-window.supabase.createClient(
+const db = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
 
 
-/* =====================================================
+/* =========================
    VARIABLES
-===================================================== */
+========================= */
 
-let currentGame = "";
-
-let level = 1;
-
-let score = 0;
-
-let coins = 0;
-
-let targetHits = 0;
-
-let targetNeeded = 5;
-
-let numberAnswer = "";
-
-let currentColor = "";
-
-let timer = null;
-
-let rewardBusy = false;
+let currentGame="";
+let level=1;
+let score=0;
+let coins=0;
+let hits=0;
+let needed=5;
+let answer="";
+let correctColor="";
+let timer=null;
+let quickHits=0;
 
 
-/* =====================================================
+/* =========================
    HOME
-===================================================== */
+========================= */
 
 function goHome(){
-
-    window.location.href = "main.html";
-
+    location.href="main.html";
 }
 
 
-/* =====================================================
-   GET LOGIN USER
-===================================================== */
+/* =========================
+   USER
+========================= */
 
 async function getUser(){
 
-    const {
-        data,
-        error
-    } = await db.auth.getUser();
+    const {data,error}=await db.auth.getUser();
 
-    if(error){
-
-        console.error(
-            "AUTH ERROR:",
-            error
-        );
-
+    if(error || !data.user){
         return null;
     }
 
-    return data.user || null;
-
+    return data.user;
 }
 
 
-/* =====================================================
-   GET PROFILE
-===================================================== */
+/* =========================
+   BALANCE
+========================= */
 
-async function getProfile(){
+async function loadBalance(){
 
-    const user = await getUser();
+    const user=await getUser();
 
     if(!user){
-
-        return null;
-
+        document.getElementById("balance").innerText="Login required";
+        return;
     }
 
-
-    /*
-      Email နဲ့ profile ရှာမယ်
-    */
-
-    let result =
-        await db
+    const {data,error}=await db
         .from("profiles")
-        .select("email,balance,points")
+        .select("balance")
         .eq("email",user.email)
-        .maybeSingle();
+        .single();
 
-
-    if(result.error){
-
-        console.error(
-            "PROFILE ERROR:",
-            result.error
-        );
-
-        return null;
-
+    if(error){
+        console.log(error);
+        return;
     }
 
+    const amount=Number(data.balance||0);
 
-    return result.data || null;
+    document.getElementById("balance").innerText=
+        amount.toLocaleString()+" MMK";
 
+    localStorage.setItem("mmBalance",amount);
 }
 
 
-/* =====================================================
-   GIVE GAME REWARD
-===================================================== */
+/* =========================
+   GAME REWARD
+========================= */
 
-async function giveGameReward(){
+async function giveReward(){
 
-    if(rewardBusy){
+    const user=await getUser();
 
+    if(!user){
+        alert("Please login first.");
         return 0;
-
     }
 
-    rewardBusy = true;
+    const {data,error}=await db
+        .from("profiles")
+        .select("balance")
+        .eq("email",user.email)
+        .single();
 
+    if(error){
+        alert("Balance could not be loaded.");
+        console.log(error);
+        return 0;
+    }
 
-    const status =
-        document.getElementById(
-            "rewardStatus"
-        );
+    const oldBalance=Number(data.balance||0);
 
-    status.innerText =
-        "Saving reward...";
+    const reward=
+        Math.floor(Math.random()*41)+10;
 
+    const newBalance=oldBalance+reward;
 
-    try{
-
-        const user =
-            await getUser();
-
-
-        if(!user){
-
-            alert(
-                "Login ဝင်ထားတဲ့ account မတွေ့ပါဘူး။"
-            );
-
-            return 0;
-
-        }
-
-
-        const profile =
-            await getProfile();
-
-
-        if(!profile){
-
-            alert(
-                "ဒီ account အတွက် profile မတွေ့ပါဘူး။"
-            );
-
-            return 0;
-
-        }
-
-
-        const oldBalance =
-            Number(
-                profile.balance || 0
-            );
-
-
-        /*
-          10 - 50 MMK random
-        */
-
-        const reward =
-            Math.floor(
-                Math.random() * 41
-            ) + 10;
-
-
-        const newBalance =
-            oldBalance + reward;
-
-
-        /*
-          Supabase database update
-        */
-
-        const {
-            data,
-            error
-        } =
-        await db
+    const {error:updateError}=await db
         .from("profiles")
         .update({
             balance:newBalance
         })
-        .eq(
-            "email",
-            user.email
-        )
-        .select("balance")
-        .single();
+        .eq("email",user.email);
 
+    if(updateError){
 
-        if(error){
+        console.log(updateError);
 
-            console.error(
-                "REWARD SAVE ERROR:",
-                error
-            );
-
-            alert(
-                "Reward မဝင်ပါ။\n\n" +
-                error.message
-            );
-
-            return 0;
-
-        }
-
-
-        /*
-          Main page local balance
-          ကိုလည်း update
-        */
-
-        localStorage.setItem(
-            "mmBalance",
-            String(
-                data.balance
-            )
+        alert(
+            "Reward save failed.\n\n"+
+            updateError.message
         );
 
-
-        /*
-          Other pages ကို
-          balance update signal
-        */
-
-        window.dispatchEvent(
-            new CustomEvent(
-                "balanceUpdated",
-                {
-                    detail:{
-                        balance:
-                        data.balance
-                    }
-                }
-            )
-        );
-
-
-        status.innerText =
-            "Reward saved ✓";
-
-
-        return reward;
-
-    }
-    finally{
-
-        rewardBusy = false;
-
+        return 0;
     }
 
+    localStorage.setItem("mmBalance",newBalance);
+
+    document.getElementById("balance").innerText=
+        newBalance.toLocaleString()+" MMK";
+
+    window.dispatchEvent(
+        new Event("balanceUpdated")
+    );
+
+    return reward;
 }
 
 
-/* =====================================================
-   START GAME
-===================================================== */
+/* =========================
+   START
+========================= */
 
 function startGame(game){
 
-    clearAllTimers();
+    currentGame=game;
 
+    level=1;
+    score=0;
+    coins=0;
+    needed=5;
 
-    currentGame = game;
+    document.getElementById("gameList").style.display="none";
+    document.getElementById("playScreen").style.display="block";
 
-    level = 1;
-
-    score = 0;
-
-    coins = 0;
-
-    targetNeeded = 5;
-
-
-    document.getElementById(
-        "gameList"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "playScreen"
-    ).style.display =
-        "block";
-
-
-    const names = {
-
-        tap:"Tap Target",
-
-        memory:"Memory Cards",
-
-        number:"Number Rush",
-
-        color:"Color Match",
-
-        quick:"Quick Click"
-
+    const names={
+        tap:"🎯 Tap Master",
+        memory:"🧠 Memory Rush",
+        number:"🔢 Number Rush",
+        color:"🎨 Color Master",
+        quick:"⚡ Quick Fire"
     };
 
-
-    document.getElementById(
-        "gameName"
-    ).innerText =
+    document.getElementById("gameTitle").innerText=
         names[game];
 
-
     updateStats();
-
     loadGame();
-
 }
 
 
-/* =====================================================
-   LOAD GAME
-===================================================== */
+/* =========================
+   LOAD
+========================= */
 
 function loadGame(){
 
-    clearAllTimers();
+    clearTimeout(timer);
+    clearInterval(timer);
+
+    document.getElementById("result").style.display="none";
+    document.getElementById("target").style.display="none";
+
+    document.getElementById("level").innerText=level;
+
+    document.getElementById("progress").style.width=
+        Math.min(level*10,100)+"%";
+
+    if(currentGame==="tap") loadTap();
+    if(currentGame==="memory") loadMemory();
+    if(currentGame==="number") loadNumber();
+    if(currentGame==="color") loadColor();
+    if(currentGame==="quick") loadQuick();
+}
 
 
-    document.getElementById(
-        "result"
-    ).style.display =
-        "none";
+/* =========================
+   TAP MASTER
+========================= */
 
+function loadTap(){
 
-    document.getElementById(
-        "rewardStatus"
-    ).innerText =
-        "";
+    hits=0;
 
-
-    document.getElementById(
-        "levelText"
-    ).innerText =
-        level;
-
-
-    document.getElementById(
-        "levelProgress"
-    ).style.width =
-        Math.min(
-            level * 10,
-            100
-        ) + "%";
-
-
-    const box =
-        document.getElementById(
-            "gameBox"
-        );
-
-
-    /*
-      အရင် game content ရှင်း
-    */
-
-    box.innerHTML = `
-
-        <div class="instruction"
-             id="instruction">
-            Get ready...
+    document.getElementById("gameBox").innerHTML=`
+        <div class="instruction" id="instruction">
+            Hit the target ${needed} times!
         </div>
 
         <div class="target"
              id="target"
-             onclick="hitTarget()">
-            +
-        </div>
+             onclick="hitTarget()">+</div>
 
         <div class="result"
              id="result">
 
-            <h2 id="resultTitle">
-                Level Complete!
-            </h2>
+            <h2 id="resultTitle">LEVEL COMPLETE 🎉</h2>
+
+            <div class="reward" id="reward">+0 MMK</div>
 
             <p id="resultText">
-                Great job!
+                Your reward has been added.
             </p>
 
-            <button onclick="nextLevel()">
-                Next Level →
+            <button class="next"
+                    onclick="nextLevel()">
+                NEXT LEVEL →
             </button>
 
         </div>
-
     `;
 
-
-    if(currentGame === "tap"){
-
-        loadTap();
-
-    }
-    else if(currentGame === "memory"){
-
-        loadMemory();
-
-    }
-    else if(currentGame === "number"){
-
-        loadNumber();
-
-    }
-    else if(currentGame === "color"){
-
-        loadColor();
-
-    }
-    else if(currentGame === "quick"){
-
-        loadQuick();
-
-    }
-
-}
-
-
-/* =====================================================
-   TAP TARGET
-===================================================== */
-
-function loadTap(){
-
-    targetHits = 0;
-
-
-    const instruction =
-        document.getElementById(
-            "instruction"
-        );
-
-
-    const target =
-        document.getElementById(
-            "target"
-        );
-
-
-    instruction.innerText =
-        "Tap the target " +
-        targetNeeded +
-        " times!";
-
-
-    target.style.display =
-        "flex";
-
+    document.getElementById("target").style.display="flex";
 
     moveTarget();
-
 }
 
 
 function moveTarget(){
 
-    const box =
-        document.getElementById(
-            "gameBox"
-        );
+    const box=document.getElementById("gameBox");
+    const target=document.getElementById("target");
 
+    if(!target) return;
 
-    const target =
-        document.getElementById(
-            "target"
-        );
+    const x=Math.random()*
+        Math.max(box.clientWidth-70,1);
 
+    const y=70+
+        Math.random()*
+        Math.max(box.clientHeight-140,1);
 
-    if(!box || !target){
-
-        return;
-
-    }
-
-
-    const maxX =
-        Math.max(
-            box.clientWidth -
-            target.offsetWidth,
-            1
-        );
-
-
-    const maxY =
-        Math.max(
-            box.clientHeight -
-            target.offsetHeight -
-            20,
-            80
-        );
-
-
-    target.style.left =
-        Math.floor(
-            Math.random() * maxX
-        ) + "px";
-
-
-    target.style.top =
-        (
-            70 +
-            Math.floor(
-                Math.random() *
-                Math.max(
-                    maxY - 70,
-                    1
-                )
-            )
-        ) + "px";
-
+    target.style.left=x+"px";
+    target.style.top=y+"px";
 }
 
 
 function hitTarget(){
 
-    if(currentGame !== "tap" &&
-       currentGame !== "quick"){
-
+    if(currentGame==="quick"){
+        quickHits++;
+        score+=10;
+        coins+=2;
+        updateStats();
+        moveQuickTarget();
         return;
-
     }
 
-
-    targetHits++;
-
-    score += 10;
-
-    coins += 2;
+    hits++;
+    score+=10;
+    coins+=2;
 
     updateStats();
 
+    if(hits>=needed){
 
-    if(
-        currentGame === "quick"
-    ){
-
-        moveTarget();
-
-        return;
-
-    }
-
-
-    if(
-        targetHits >=
-        targetNeeded
-    ){
-
-        document.getElementById(
-            "target"
-        ).style.display =
-            "none";
-
+        document.getElementById("target").style.display="none";
 
         completeLevel();
 
-    }
-    else{
-
+    }else{
         moveTarget();
-
     }
-
 }
 
 
-/* =====================================================
+/* =========================
    MEMORY
-===================================================== */
+========================= */
 
 function loadMemory(){
 
-    const box =
-        document.getElementById(
-            "gameBox"
-        );
+    const box=document.getElementById("gameBox");
 
+    box.innerHTML=`
+        <div class="instruction">
+            Match all pairs 🧠
+        </div>
+        <div class="memory" id="memoryGrid"></div>
 
-    box.innerHTML = "";
+        <div class="result" id="result">
+            <h2 id="resultTitle">LEVEL COMPLETE 🎉</h2>
+            <div class="reward" id="reward">+0 MMK</div>
+            <p id="resultText">Reward added.</p>
+            <button class="next" onclick="nextLevel()">
+                NEXT LEVEL →
+            </button>
+        </div>
+    `;
 
+    const grid=document.getElementById("memoryGrid");
 
-    const instruction =
-        document.createElement(
-            "div"
-        );
-
-
-    instruction.className =
-        "instruction";
-
-
-    instruction.innerText =
-        "Find all matching pairs.";
-
-
-    box.appendChild(
-        instruction
-    );
-
-
-    const grid =
-        document.createElement(
-            "div"
-        );
-
-
-    grid.className =
-        "memory-grid";
-
-
-    let symbols = [
-
+    let symbols=[
         "🍎","🍎",
         "⭐","⭐",
         "🚀","🚀",
         "💎","💎"
-
     ];
 
+    symbols.sort(()=>Math.random()-.5);
 
-    symbols.sort(
-        () => Math.random() - 0.5
-    );
+    let opened=[];
+    let lock=false;
+
+    symbols.forEach(symbol=>{
+
+        const card=document.createElement("button");
+
+        card.innerText="❓";
+
+        card.onclick=()=>{
+
+            if(lock ||
+               card.classList.contains("open") ||
+               card.classList.contains("done")){
+                return;
+            }
+
+            card.classList.add("open");
+            card.innerText=symbol;
+
+            opened.push({card,symbol});
+
+            if(opened.length===2){
+
+                lock=true;
+
+                setTimeout(()=>{
+
+                    if(opened[0].symbol===
+                       opened[1].symbol){
+
+                        opened[0].card.classList.add("done");
+                        opened[1].card.classList.add("done");
+
+                        score+=20;
+                        coins+=5;
+
+                    }else{
+
+                        opened.forEach(x=>{
+                            x.card.classList.remove("open");
+                            x.card.innerText="❓";
+                        });
+
+                    }
+
+                    opened=[];
+                    lock=false;
+
+                    updateStats();
+
+                    if(
+                        document.querySelectorAll(
+                            ".memory .done"
+                        ).length===8
+                    ){
+                        completeLevel();
+                    }
+
+                },500);
+            }
+        };
+
+        grid.appendChild(card);
+    });
+}
 
 
-    let opened = [];
+/* =========================
+   NUMBER RUSH
+========================= */
 
-    let completed = 0;
+function loadNumber(){
 
+    const digits=Math.min(3+level,8);
 
-    symbols.forEach(
-        function(symbol){
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.className =
-                "memory-card";
-
-
-            button.innerText =
-                "❓";
-
-
-            button.onclick =
-            function(){
-
-                if(
-                    button.classList.contains(
-                        "open"
-                    ) ||
-                    button.classList.contains(
-                        "done"
-                    ) ||
-                    opened.length >= 2
-                ){
-
-                    return;
-
-                }
-
-
-                button.classList.add(
-                    "open"
-                );
-
-
-                button.innerText =
-                    symbol;
-
-
-                opened.push({
-                    button,
-                    symbol
-                });
-
-
-                if(
-                    opened.length === 2
-                ){
-
-                    const first =
-                        opened[0];
-
-    
+    answer="";
