@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>MM Real Earn - Daily Task</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#070b16;
+    color:#fff;
+    min-height:100vh;
+}
+
+.topbar{
+    height:70px;
+    padding:0 18px;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    background:#0c1223;
+
+    border-bottom:1px solid
+    rgba(255,255,255,.07);
+}
+
+.back{
+    width:42px;
+    height:42px;
+
+    border:0;
+    border-radius:13px;
+
+    background:#18233c;
+
+    color:#fff;
+    font-size:25px;
+}
+
+.logo{
+    width:42px;
+    height:42px;
+
+    border-radius:13px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+    linear-gradient(
+        135deg,
+        #00e5ff,
+        #6658e8
+    );
+
+    font-size:20px;
+    font-weight:900;
+}
+
+.title{
+    font-size:17px;
+    font-weight:800;
+}
+
+.title span{
+    color:#00e5ff;
+}
+
+.container{
+    width:100%;
+    max-width:520px;
+
+    margin:auto;
+    padding:20px;
+}
+
+
+/* BALANCE */
+
+.balance-card{
+    padding:20px;
+
+    border-radius:22px;
+
+    background:
+    linear-gradient(
+        145deg,
+        #121d38,
+        #0b1122
+    );
+
+    border:1px solid
+    rgba(0,229,255,.15);
+
+    margin-bottom:22px;
+}
+
+.balance-title{
+    color:#8995ae;
+    font-size:12px;
+}
+
+.balance{
+    margin-top:7px;
+
+    font-size:28px;
+    font-weight:900;
+}
+
+.balance span{
+    color:#00e5ff;
+    font-size:14px;
+}
+
+
+/* HEADER */
+
+.heading{
+    margin-bottom:15px;
+}
+
+.heading h1{
+    font-size:22px;
+}
+
+.heading p{
+    color:#77839e;
+    font-size:12px;
+    margin-top:5px;
+}
+
+
+/* MESSAGE */
+
+.message{
+    display:none;
+
+    padding:13px;
+
+    margin-bottom:15px;
+
+    border-radius:13px;
+
+    text-align:center;
+
+    font-size:12px;
+}
+
+.message.success{
+    display:block;
+
+    color:#00e5ff;
+
+    background:
+    rgba(0,229,255,.08);
+
+    border:1px solid
+    rgba(0,229,255,.15);
+}
+
+.message.error{
+    display:block;
+
+    color:#ff7188;
+
+    background:
+    rgba(255,55,95,.08);
+
+    border:1px solid
+    rgba(255,55,95,.15);
+}
+
+
+/* TASK */
+
+.task{
+    padding:17px;
+
+    border-radius:18px;
+
+    background:#10182b;
+
+    border:1px solid
+    rgba(255,255,255,.07);
+
+    margin-bottom:12px;
+}
+
+.task-top{
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.task-icon{
+    width:48px;
+    height:48px;
+
+    border-radius:15px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#182640;
+
+    font-size:23px;
+}
+
+.task-info{
+    flex:1;
+}
+
+.task-info h3{
+    font-size:14px;
+}
+
+.task-info p{
+    color:#75819a;
+
+    font-size:10px;
+
+    margin-top:5px;
+}
+
+.reward{
+    color:#00e5ff;
+
+    font-size:13px;
+
+    font-weight:bold;
+}
+
+
+/* BUTTON */
+
+.task-btn{
+    width:100%;
+
+    margin-top:14px;
+
+    padding:12px;
+
+    border:0;
+
+    border-radius:12px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #00bcd4,
+        #6658e8
+    );
+
+    color:#fff;
+
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+.task-btn.done{
+    background:#1c2942;
+
+    color:#6f7d97;
+}
+
+.task-btn:disabled{
+    cursor:not-allowed;
+}
+
+
+/* AD BOX */
+
+.ad-box{
+    margin-top:14px;
+
+    min-height:130px;
+
+    border-radius:15px;
+
+    background:#080d1a;
+
+    border:1px dashed
+    rgba(0,229,255,.22);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    padding:15px;
+}
+
+.ad-content{
+    color:#78849d;
+
+    font-size:11px;
+
+    line-height:1.6;
+}
+
+.ad-icon{
+    font-size:32px;
+
+    margin-bottom:7px;
+}
+
+
+/* AD BUTTON */
+
+.ad-btn{
+    margin-top:10px;
+
+    padding:10px 18px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:#182640;
+
+    color:#fff;
+
+    font-size:11px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.ad-btn:disabled{
+    opacity:.5;
+}
+
+
+/* FOOT NOTE */
+
+.note{
+    text-align:center;
+
+    color:#68748e;
+
+    font-size:10px;
+
+    line-height:1.6;
+
+    margin-top:18px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+    <button
+    class="back"
+    onclick="goBack()">
+
+        ‹
+
+    </button>
+
+
+    <div class="logo">
+        M
+    </div>
+
+
+    <div class="title">
+        MM <span>REAL</span> EARN
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- BALANCE -->
+
+<section class="balance-card">
+
+    <div class="balance-title">
+        Available Balance
+    </div>
+
+    <div class="balance">
+
+        <span>MMK</span>
+
+        <strong id="balance">
+            0
+        </strong>
+
+    </div>
+
+</section>
+
+
+<!-- TITLE -->
+
+<div class="heading">
+
+    <h1>
+        🎯 Daily Tasks
+    </h1>
+
+    <p>
+        Complete today's tasks and earn MMK rewards.
+    </p>
+
+</div>
+
+
+<div
+id="message"
+class="message">
+</div>
+
+
+<!-- AD TASK 1 -->
+
+<section class="task">
+
+    <div class="task-top">
+
+        <div class="task-icon">
+            📺
+        </div>
+
+        <div class="task-info">
+
+            <h3>
+                Watch Advertisement
+            </h3>
+
+            <p>
+                Watch the advertisement to complete
+                today's task.
+            </p>
+
+        </div>
+
+        <div class="reward">
+            +MMK 100
+        </div>
+
+    </div>
+
+
+    <div class="ad-box">
+
+        <div class="ad-content">
+
+            <div class="ad-icon">
+                📢
+            </div>
+
+            Advertisement Area
+
+            <br>
+
+            Ad Network will appear here
+
+            <br>
+
+
+            <button
+            class="ad-btn"
+            id="adButton1"
+            onclick="watchAd(1,100)">
+
+                ▶ Watch Ad
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- AD TASK 2 -->
+
+<section class="task">
+
+    <div class="task-top">
+
+        <div class="task-icon">
+            📺
+        </div>
+
+        <div class="task-info">
+
+            <h3>
+                Watch Advertisement
+            </h3>
+
+            <p>
+                Complete another daily advertisement.
+            </p>
+
+        </div>
+
+        <div class="reward">
+            +MMK 100
+        </div>
+
+    </div>
+
+
+    <div class="ad-box">
+
+        <div class="ad-content">
+
+            <div class="ad-icon">
+                📢
+            </div>
+
+            Advertisement Area
+
+            <br>
+
+            Ad Network will appear here
+
+            <br>
+
+
+            <button
+            class="ad-btn"
+            id="adButton2"
+            onclick="watchAd(2,100)">
+
+                ▶ Watch Ad
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- AD TASK 3 -->
+
+<section class="task">
+
+    <div class="task-top">
+
+        <div class="task-icon">
+            📺
+        </div>
+
+        <div class="task-info">
+
+            <h3>
+                Watch Advertisement
+            </h3>
+
+            <p>
+                Complete your third daily advertisement.
+            </p>
+
+        </div>
+
+        <div class="reward">
+            +MMK 100
+        </div>
+
+    </div>
+
+
+    <div class="ad-box">
+
+        <div class="ad-content">
+
+            <div class="ad-icon">
+                📢
+            </div>
+
+            Advertisement Area
+
+            <br>
+
+            Ad Network will appear here
+
+            <br>
+
+
+            <button
+            class="ad-btn"
+            id="adButton3"
+            onclick="watchAd(3,100)">
+
+                ▶ Watch Ad
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="note">
+
+    Daily advertisement rewards are limited.
+
+    <br>
+
+    Actual advertising rewards will be
+    verified by the connected ad network.
+
+</div>
+
+
+</main>
+
+
+<script>
+
+
+/*
+    COMMON BALANCE
+*/
+
+let balance =
+Number(
+    localStorage.getItem("mmBalance")
+) || 0;
+
+
+function showBalance(){
+
+    document.getElementById(
+        "balance"
+    ).innerText =
+    balance.toLocaleString();
+
+}
+
+
+showBalance();
+
+
+/*
+    BACK
+*/
+
+function goBack(){
+
+    window.location.href =
+    "main.html";
+
+}
+
+
+/*
+    TODAY KEY
+*/
+
+const today =
+new Date()
+.toISOString()
+.slice(0,10);
+
+
+/*
+    MESSAGE
+*/
+
+function showMessage(
+    text,
+    type
+){
+
+    const box =
+    document.getElementById(
+        "message"
+    );
+
+    box.className =
+    "message " + type;
+
+    box.innerText = text;
+
+}
+
+
+/*
+    AD REWARD FUNCTION
+
+    IMPORTANT:
+
+    This is currently a TEST
+    reward flow.
+
+    Later the ad network callback
+    will call the verified reward
+    function instead.
+*/
+
+function watchAd(
+    adId,
+    reward
+){
+
+    const key =
+    "dailyAd_" +
+    today +
+    "_" +
+    adId;
+
+
+    /*
+        Prevent duplicate reward
+        on the same day.
+    */
+
+    if(
+        localStorage.getItem(key)
+    ){
+
+        showMessage(
+            "This ad reward has already been claimed today.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const button =
+    document.getElementById(
+        "adButton" + adId
+    );
+
+
+    button.disabled = true;
+
+    button.innerText =
+    "Watching...";
+
+
+    /*
+        TEST WATCH TIMER
+
+        Later this will be replaced
+        by the actual ad network
+        completion callback.
+    */
+
+    setTimeout(function(){
+
+        addVerifiedReward(
+            adId,
+            reward
+        );
+
+
+    },5000);
+
+}
+
+
+/*
+    VERIFIED REWARD
+
+    This function is the single place
+    that adds the reward.
+
+    When the real ad network is connected,
+    its verified callback should call
+    this function.
+*/
+
+function addVerifiedReward(
+    adId,
+    reward
+){
+
+    const key =
+    "dailyAd_" +
+    today +
+    "_" +
+    adId;
+
+
+    if(
+        localStorage.getItem(key)
+    ){
+
+        return;
+
+    }
+
+
+    /*
+        Add reward to common balance.
+    */
+
+    balance += reward;
+
+
+    localStorage.setItem(
+        "mmBalance",
+        balance
+    );
+
+
+    /*
+        Mark today's reward claimed.
+    */
+
+    localStorage.setItem(
+        key,
+        "claimed"
+    );
+
+
+    showBalance();
+
+
+    const button =
+    document.getElementById(
+        "adButton" + adId
+    );
+
+
+    button.innerText =
+    "✓ Reward Claimed";
+
+    button.disabled = true;
+
+
+    showMessage(
+        "🎉 +" +
+        reward.toLocaleString() +
+        " MMK added to your balance.",
+        "success"
+    );
+
+}
+
+
+/*
+    CHECK TODAY'S ADS
+*/
+
+function checkAds(){
+
+    for(
+        let i=1;
+        i<=3;
+        i++
+    ){
+
+        const key =
+        "dailyAd_" +
+        today +
+        "_" +
+        i;
+
+
+        if(
+            localStorage.getItem(key)
+        ){
+
+            const button =
+            document.getElementById(
+                "adButton" + i
+            );
+
+
+            button.innerText =
+            "✓ Reward Claimed";
+
+            button.disabled = true;
+
+        }
+
+    }
+
+}
+
+
+checkAds();
+
+
+</script>
+
+
+</body>
+  </html>
