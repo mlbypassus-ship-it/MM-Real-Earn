@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MM Real Earn - Games</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
     margin:0;
@@ -40,7 +42,7 @@ body{
     border-radius:12px;
     background:#17213a;
     color:white;
-    font-size:20px;
+    font-size:25px;
 }
 
 .logo{
@@ -82,8 +84,6 @@ body{
     margin-top:5px;
     font-size:27px;
 }
-
-/* GAME LIST */
 
 .game-grid{
     display:grid;
@@ -134,8 +134,6 @@ body{
     font-size:11px;
     font-weight:bold;
 }
-
-/* PLAY SCREEN */
 
 #playScreen{
     display:none;
@@ -188,13 +186,15 @@ body{
     font-size:18px;
 }
 
-/* GAME BOX */
-
 .game-box{
     height:390px;
     border-radius:24px;
     background:
-        radial-gradient(circle at center,rgba(0,229,255,.08),transparent 45%),
+        radial-gradient(
+            circle at center,
+            rgba(0,229,255,.08),
+            transparent 45%
+        ),
         #0c1426;
     border:1px solid rgba(255,255,255,.08);
     position:relative;
@@ -207,8 +207,6 @@ body{
     color:#9ca7bf;
     font-size:13px;
 }
-
-/* TAP GAME */
 
 .target{
     position:absolute;
@@ -224,8 +222,6 @@ body{
     font-weight:bold;
     cursor:pointer;
 }
-
-/* MEMORY */
 
 .memory-grid{
     padding:20px;
@@ -251,8 +247,6 @@ body{
 .memory-card.done{
     background:#087f8e;
 }
-
-/* NUMBER */
 
 .number-area{
     text-align:center;
@@ -288,8 +282,6 @@ body{
     font-weight:bold;
 }
 
-/* COLOR */
-
 .color-area{
     padding-top:50px;
     text-align:center;
@@ -318,8 +310,6 @@ body{
     font-weight:bold;
 }
 
-/* RESULT */
-
 .result{
     display:none;
     position:absolute;
@@ -330,6 +320,7 @@ body{
     flex-direction:column;
     text-align:center;
     z-index:5;
+    padding:20px;
 }
 
 .result h2{
@@ -361,8 +352,6 @@ body{
     color:white;
 }
 
-/* LEVEL BAR */
-
 .level-bar{
     height:6px;
     background:#18233c;
@@ -377,9 +366,35 @@ body{
     background:linear-gradient(90deg,#00e5ff,#6557e8);
     transition:.3s;
 }
+
+.reward-box{
+    margin-top:15px;
+    padding:13px;
+    text-align:center;
+    border-radius:15px;
+    background:#10182b;
+    color:#9ca7bf;
+    font-size:12px;
+}
+
+.reward-box strong{
+    color:#00e5ff;
+}
+
+.reward-loading{
+    color:#ffd166;
+    font-size:12px;
+    margin-top:8px;
+}
+
+.success{
+    color:#22c55e !important;
+}
+
+.error{
+    color:#ff5577 !important;
+}
 </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="earn.js"></script>
 </head>
 
 <body>
@@ -399,616 +414,861 @@ body{
 
 <main class="container">
 
-    <!-- GAME LIST -->
+<section id="gameList">
 
-    <section id="gameList">
+    <div class="heading">
+        <small>Choose your challenge 🎮</small>
+        <h1>Mini Games</h1>
+    </div>
 
-        <div class="heading">
-            <small>Choose your challenge 🎮</small>
-            <h1>Mini Games</h1>
+    <div class="game-grid">
+
+        <div class="game-card" onclick="startGame('tap')">
+            <div class="game-icon">🎯</div>
+            <h3>Tap Target</h3>
+            <p>Tap the target as fast as possible.</p>
+            <div class="play-label">▶ PLAY</div>
         </div>
 
-        <div class="game-grid">
+        <div class="game-card" onclick="startGame('memory')">
+            <div class="game-icon">🧠</div>
+            <h3>Memory Cards</h3>
+            <p>Remember the cards and match them.</p>
+            <div class="play-label">▶ PLAY</div>
+        </div>
 
-            <div class="game-card" onclick="startGame('tap')">
-                <div class="game-icon">🎯</div>
-                <h3>Tap Target</h3>
-                <p>Tap the target as fast as possible.</p>
-                <div class="play-label">▶ PLAY</div>
-            </div>
+        <div class="game-card" onclick="startGame('number')">
+            <div class="game-icon">🔢</div>
+            <h3>Number Rush</h3>
+            <p>Remember the number and type it.</p>
+            <div class="play-label">▶ PLAY</div>
+        </div>
 
-            <div class="game-card" onclick="startGame('memory')">
-                <div class="game-icon">🧠</div>
-                <h3>Memory Cards</h3>
-                <p>Remember the cards and match them.</p>
-                <div class="play-label">▶ PLAY</div>
-            </div>
+        <div class="game-card" onclick="startGame('color')">
+            <div class="game-icon">🎨</div>
+            <h3>Color Match</h3>
+            <p>Choose the correct color.</p>
+            <div class="play-label">▶ PLAY</div>
+        </div>
 
-            <div class="game-card" onclick="startGame('number')">
-                <div class="game-icon">🔢</div>
-                <h3>Number Rush</h3>
-                <p>Remember the number and type it.</p>
-                <div class="play-label">▶ PLAY</div>
-            </div>
+        <div class="game-card" onclick="startGame('quick')">
+            <div class="game-icon">⚡</div>
+            <h3>Quick Click</h3>
+            <p>Complete the challenge before time runs out.</p>
+            <div class="play-label">▶ PLAY</div>
+        </div>
 
-            <div class="game-card" onclick="startGame('color')">
-                <div class="game-icon">🎨</div>
-                <h3>Color Match</h3>
-                <p>Choose the correct color.</p>
-                <div class="play-label">▶ PLAY</div>
-            </div>
+    </div>
 
-            <div class="game-card" onclick="startGame('quick')">
-                <div class="game-icon">⚡</div>
-                <h3>Quick Click</h3>
-                <p>Complete the challenge before time runs out.</p>
-                <div class="play-label">▶ PLAY</div>
-            </div>
+</section>
+
+
+<section id="playScreen">
+
+    <div class="game-header">
+
+        <div class="game-name" id="gameName">
+            Game
+        </div>
+
+        <div class="level">
+            LV <span id="levelText">1</span>
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+            <small>SCORE</small>
+            <strong id="score">0</strong>
+        </div>
+
+        <div class="stat">
+            <small>COINS</small>
+            <strong id="coins">0</strong>
+        </div>
+
+    </div>
+
+
+    <div class="level-bar">
+        <div class="level-progress" id="levelProgress"></div>
+    </div>
+
+
+    <div class="reward-box">
+
+        Game Level Win Reward:
+        <strong>10–50 MMK</strong>
+
+        <div id="rewardStatus"></div>
+
+    </div>
+
+
+    <br>
+
+
+    <div class="game-box" id="gameBox">
+
+        <div class="instruction" id="instruction">
+            Get ready...
+        </div>
+
+        <div class="target"
+             id="target"
+             onclick="hitTarget()">
+            +
+        </div>
+
+        <div class="result" id="result">
+
+            <h2 id="resultTitle">
+                Level Complete!
+            </h2>
+
+            <p id="resultText">
+                Great job!
+            </p>
+
+            <button onclick="nextLevel()">
+                Next Level →
+            </button>
 
         </div>
 
-    </section>
+    </div>
 
 
-    <!-- PLAY SCREEN -->
+    <button class="back-games"
+            onclick="backToGames()">
+        ← Back to Games
+    </button>
 
-    <section id="playScreen">
-
-        <div class="game-header">
-
-            <div class="game-name" id="gameName">
-                Game
-            </div>
-
-            <div class="level">
-                LV <span id="levelText">1</span>
-            </div>
-
-        </div>
-
-        <div class="stats">
-
-            <div class="stat">
-                <small>SCORE</small>
-                <strong id="score">0</strong>
-            </div>
-
-            <div class="stat">
-                <small>COINS</small>
-                <strong id="coins">0</strong>
-            </div>
-
-        </div>
-
-        <div class="level-bar">
-            <div class="level-progress" id="levelProgress"></div>
-        </div>
-
-        <br>
-
-        <div class="game-box" id="gameBox">
-
-            <div class="instruction" id="instruction">
-                Get ready...
-            </div>
-
-            <div class="target" id="target"
-                 onclick="hitTarget()">
-                +
-            </div>
-
-            <div class="result" id="result">
-
-                <h2 id="resultTitle">
-                    Level Complete!
-                </h2>
-
-                <p id="resultText">
-                    Great job!
-                </p>
-
-                <button onclick="nextLevel()">
-                    Next Level →
-                </button>
-
-            </div>
-
-        </div>
-
-        <button class="back-games"
-                onclick="backToGames()">
-            ← Back to Games
-        </button>
-
-    </section>
+</section>
 
 </main>
 
 
 <script>
 
+/* =========================================================
+   SUPABASE CONNECTION
+========================================================= */
+
+const SUPABASE_URL =
+"https://acclbthzfzrfbwyslpvv.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_PxrCIfh0MfL6KT1iQxgqfw__IgNG1OY";
+
+const db =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
 let currentGame = "";
+
 let level = 1;
+
 let score = 0;
+
 let coins = 0;
+
 let targetHits = 0;
+
 let targetNeeded = 5;
+
 let numberAnswer = "";
+
 let currentColor = "";
+
 let timer = null;
 
+let rewardSaving = false;
 
-/* HOME */
+
+/* =========================================================
+   HOME
+========================================================= */
 
 function goHome(){
-    window.location.href="main.html";
+
+    window.location.href =
+        "main.html";
+
 }
 
 
-/* START GAME */
+/* =========================================================
+   GET LOGGED-IN USER
+========================================================= */
+
+async function getUser(){
+
+    const {
+        data,
+        error
+    } = await db.auth.getUser();
+
+    if(error){
+
+        console.log(
+            "AUTH ERROR:",
+            error
+        );
+
+        return null;
+    }
+
+    return data.user || null;
+}
+
+
+/* =========================================================
+   GET PROFILE
+========================================================= */
+
+async function getProfile(){
+
+    const user =
+        await getUser();
+
+    if(!user){
+
+        return null;
+    }
+
+
+    let {data,error} =
+        await db
+        .from("profiles")
+        .select("email,balance,points")
+        .eq(
+            "email",
+            user.email
+        )
+        .maybeSingle();
+
+
+    if(error){
+
+        console.log(
+            "PROFILE ERROR:",
+            error
+        );
+
+        return null;
+    }
+
+
+    return data;
+}
+
+
+/* =========================================================
+   SAVE GAME REWARD
+========================================================= */
+
+async function addGameReward(){
+
+    if(rewardSaving){
+
+        return 0;
+    }
+
+    rewardSaving = true;
+
+
+    const status =
+        document.getElementById(
+            "rewardStatus"
+        );
+
+
+    status.className =
+        "reward-loading";
+
+    status.innerText =
+        "Saving reward...";
+
+
+    try{
+
+        const user =
+            await getUser();
+
+
+        if(!user){
+
+            throw new Error(
+                "Please login first."
+            );
+        }
+
+
+        const profile =
+            await getProfile();
+
+
+        if(!profile){
+
+            throw new Error(
+                "Profile not found."
+            );
+        }
+
+
+        const oldBalance =
+            Number(
+                profile.balance || 0
+            );
+
+
+        /*
+          RANDOM 10 - 50 MMK
+        */
+
+        const reward =
+            Math.floor(
+                Math.random() * 41
+            ) + 10;
+
+
+        const newBalance =
+            oldBalance + reward;
+
+
+        /*
+          SAVE TO SUPABASE
+        */
+
+        const {
+            data,
+            error
+        } = await db
+        .from("profiles")
+        .update({
+
+            balance:
+            newBalance
+
+        })
+        .eq(
+            "email",
+            user.email
+        )
+        .select("balance")
+        .single();
+
+
+        if(error){
+
+            throw error;
+        }
+
+
+        /*
+          LOCAL CACHE
+        */
+
+        localStorage.setItem(
+            "mmBalance",
+            String(
+                data.balance
+            )
+        );
+
+
+        /*
+          INFORM OTHER PAGES
+        */
+
+        window.dispatchEvent(
+            new Event(
+                "balanceUpdated"
+            )
+        );
+
+
+        status.className =
+            "reward-loading success";
+
+        status.innerText =
+            "+" +
+            reward +
+            " MMK added to balance";
+
+
+        return reward;
+
+
+    }catch(error){
+
+        console.log(
+            "REWARD SAVE ERROR:",
+            error
+        );
+
+
+        status.className =
+            "reward-loading error";
+
+        status.innerText =
+            "Reward failed: " +
+            error.message;
+
+
+        return 0;
+
+
+    }finally{
+
+        rewardSaving = false;
+
+    }
+
+}
+
+
+/* =========================================================
+   START GAME
+========================================================= */
 
 function startGame(game){
 
-    currentGame = game;
+    currentGame =
+        game;
 
-    document.getElementById("gameList").style.display="none";
-    document.getElementById("playScreen").style.display="block";
 
-    level=1;
-    score=0;
-    coins=0;
+    document.getElementById(
+        "gameList"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "playScreen"
+    ).style.display =
+        "block";
+
+
+    level = 1;
+
+    score = 0;
+
+    coins = 0;
+
+    targetHits = 0;
+
+    targetNeeded = 5;
+
 
     updateStats();
 
-    let names={
+
+    const names = {
+
         tap:"Tap Target",
+
         memory:"Memory Cards",
+
         number:"Number Rush",
+
         color:"Color Match",
+
         quick:"Quick Click"
+
     };
 
-    document.getElementById("gameName").innerText=names[game];
+
+    document.getElementById(
+        "gameName"
+    ).innerText =
+        names[game];
+
 
     loadGame();
+
 }
 
 
-/* LOAD LEVEL */
+/* =========================================================
+   LOAD GAME
+========================================================= */
 
 function loadGame(){
 
+    clearTimeout(timer);
+
     clearInterval(timer);
 
-    document.getElementById("result").style.display="none";
 
-    document.getElementById("levelText").innerText=level;
+    document.getElementById(
+        "result"
+    ).style.display =
+        "none";
 
-    document.getElementById("levelProgress").style.width =
-        Math.min(level * 10,100)+"%";
 
-    if(currentGame==="tap"){
+    document.getElementById(
+        "rewardStatus"
+    ).innerText =
+        "";
+
+
+    document.getElementById(
+        "levelText"
+    ).innerText =
+        level;
+
+
+    document.getElementById(
+        "levelProgress"
+    ).style.width =
+        Math.min(
+            level * 10,
+            100
+        ) + "%";
+
+
+    if(currentGame === "tap"){
         loadTap();
     }
 
-    if(currentGame==="memory"){
+    if(currentGame === "memory"){
         loadMemory();
     }
 
-    if(currentGame==="number"){
+    if(currentGame === "number"){
         loadNumber();
     }
 
-    if(currentGame==="color"){
+    if(currentGame === "color"){
         loadColor();
     }
 
-    if(currentGame==="quick"){
+    if(currentGame === "quick"){
         loadQuick();
     }
+
 }
 
 
-/* TAP TARGET */
+/* =========================================================
+   TAP TARGET
+========================================================= */
 
 function loadTap(){
 
-    targetHits=0;
+    targetHits = 0;
 
-    let target=document.getElementById("target");
 
-    document.getElementById("instruction").innerText=
-        "Tap the target "+targetNeeded+" times!";
+    const box =
+        document.getElementById(
+            "gameBox"
+        );
 
-    target.style.display="flex";
+
+    box.innerHTML = `
+
+        <div class="instruction"
+             id="instruction">
+
+            Tap the target
+            ${targetNeeded}
+            times!
+
+        </div>
+
+        <div class="target"
+             id="target"
+             onclick="hitTarget()">
+
+            +
+
+        </div>
+
+        <div class="result"
+             id="result">
+
+            <h2 id="resultTitle">
+                Level Complete!
+            </h2>
+
+            <p id="resultText">
+                Great job!
+            </p>
+
+            <button onclick="nextLevel()">
+                Next Level →
+            </button>
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "target"
+    ).style.display =
+        "flex";
+
 
     moveTarget();
+
 }
+
 
 function moveTarget(){
 
-    let box=document.getElementById("gameBox");
-    let target=document.getElementById("target");
+    const box =
+        document.getElementById(
+            "gameBox"
+        );
 
-    let maxX=box.clientWidth-target.offsetWidth;
-    let maxY=box.clientHeight-target.offsetHeight;
 
-    let x=Math.random()*maxX;
-    let y=70+Math.random()*(maxY-70);
+    const target =
+        document.getElementById(
+            "target"
+        );
 
-    target.style.left=x+"px";
-    target.style.top=y+"px";
+
+    if(!target) return;
+
+
+    const maxX =
+        Math.max(
+            box.clientWidth -
+            target.offsetWidth,
+            1
+        );
+
+
+    const maxY =
+        Math.max(
+            box.clientHeight -
+            target.offsetHeight,
+            80
+        );
+
+
+    const x =
+        Math.random() *
+        maxX;
+
+
+    const y =
+        70 +
+        Math.random() *
+        Math.max(
+            maxY - 70,
+            1
+        );
+
+
+    target.style.left =
+        x + "px";
+
+
+    target.style.top =
+        y + "px";
+
 }
+
 
 function hitTarget(){
 
     targetHits++;
 
     score += 10;
+
     coins += 2;
 
     updateStats();
 
-    if(targetHits>=targetNeeded){
 
-        document.getElementById("target").style.display="none";
+    if(
+        currentGame ===
+        "quick"
+    ){
+
+        moveTarget();
+
+        return;
+
+    }
+
+
+    if(
+        targetHits >=
+        targetNeeded
+    ){
+
+        const target =
+            document.getElementById(
+                "target"
+            );
+
+
+        if(target){
+
+            target.style.display =
+                "none";
+
+        }
+
 
         completeLevel();
 
-    }else{
+    }
+    else{
 
         moveTarget();
+
     }
+
 }
 
 
-/* MEMORY */
+/* =========================================================
+   MEMORY
+========================================================= */
 
 function loadMemory(){
 
-    document.getElementById("instruction").innerText=
-        "Find the matching pairs.";
-
-    let box=document.getElementById("gameBox");
-
-    let grid=document.createElement("div");
-
-    grid.className="memory-grid";
-
-    let symbols=["🍎","🍎","⭐","⭐","🚀","🚀","💎","💎"];
-
-    symbols.sort(()=>Math.random()-.5);
-
-    let opened=[];
-
-    symbols.forEach((symbol,index)=>{
-
-        let button=document.createElement("button");
-
-        button.className="memory-card";
-        button.innerText="❓";
-
-        button.onclick=function(){
-
-            if(button.classList.contains("open") ||
-               button.classList.contains("done") ||
-               opened.length>=2) return;
-
-            button.classList.add("open");
-            button.innerText=symbol;
-
-            opened.push({
-                button:button,
-                symbol:symbol
-            });
-
-            if(opened.length===2){
-
-                setTimeout(()=>{
-
-                    if(opened[0].symbol===opened[1].symbol){
-
-                        opened[0].button.classList.add("done");
-                        opened[1].button.classList.add("done");
-
-                        score+=20;
-                        coins+=5;
-
-                    }else{
-
-                        opened[0].button.classList.remove("open");
-                        opened[1].button.classList.remove("open");
-
-                        opened[0].button.innerText="❓";
-                        opened[1].button.innerText="❓";
-                    }
-
-                    opened=[];
-
-                    updateStats();
-
-                    if(
-                        document.querySelectorAll(
-                        ".memory-card.done").length===8
-                    ){
-                        completeLevel();
-                    }
-
-                },600);
-            }
-        };
-
-        grid.appendChild(button);
-    });
-
-    box.innerHTML="";
-    box.appendChild(grid);
-}
+    const box =
+        document.getElementById(
+            "gameBox"
+        );
 
 
-/* NUMBER */
+    box.innerHTML = `
 
-function loadNumber(){
+        <div class="instruction">
+            Find the matching pairs.
+        </div>
 
-    let digits=Math.min(3+level,8);
+        <div class="memory-grid"
+             id="memoryGrid">
+        </div>
 
-    numberAnswer="";
+        <div class="result"
+             id="result">
 
-    for(let i=0;i<digits;i++){
-        numberAnswer += Math.floor(Math.random()*10);
-    }
+            <h2 id="resultTitle">
+                Level Complete!
+            </h2>
 
-    let box=document.getElementById("gameBox");
-
-    box.innerHTML=`
-        <div class="number-area">
-
-            <div class="instruction">
-                Remember this number
-            </div>
-
-            <div class="number-display">
-                ${numberAnswer}
-            </div>
-
-            <p style="color:#7d89a3;font-size:12px;">
-                You have 3 seconds...
+            <p id="resultText">
+                Great job!
             </p>
 
+            <button onclick="nextLevel()">
+                Next Level →
+            </button>
+
         </div>
+
     `;
 
-    setTimeout(()=>{
 
-        box.innerHTML=`
-
-            <div class="number-area">
-
-                <div class="instruction">
-                    Enter the number
-                </div>
-
-                <input
-                    class="number-input"
-                    id="numberInput"
-                    type="number"
-                    inputmode="numeric"
-                    placeholder="Number">
-
-                <br>
-
-                <button
-                    class="action-btn"
-                    onclick="checkNumber()">
-                    CHECK
-                </button>
-
-            </div>
-        `;
-
-    },3000);
-}
-
-function checkNumber(){
-
-    let input=document.getElementById("numberInput").value;
-
-    if(input===numberAnswer){
-
-        score+=30;
-        coins+=7;
-
-        updateStats();
-
-        completeLevel();
-
-    }else{
-
-        showResult(
-            "Try Again",
-            "The number was "+numberAnswer
+    const grid =
+        document.getElementById(
+            "memoryGrid"
         );
-    }
-}
 
 
-/* COLOR */
+    const symbols = [
 
-function loadColor(){
+        "🍎","🍎",
+        "⭐","⭐",
+        "🚀","🚀",
+        "💎","💎"
 
-    let colors=[
-        {name:"RED",value:"#ff375f"},
-        {name:"BLUE",value:"#00a8ff"},
-        {name:"GREEN",value:"#22c55e"},
-        {name:"PURPLE",value:"#8b5cf6"}
     ];
 
-    let selected=
-        colors[Math.floor(Math.random()*colors.length)];
 
-    currentColor=selected.name;
+    symbols.sort(
+        () =>
+        Math.random() - 0.5
+    );
 
-    let box=document.getElementById("gameBox");
 
-    box.innerHTML=`
+    let opened = [];
 
-        <div class="color-area">
 
-            <div class="instruction">
-                Which color is this?
-            </div>
+    symbols.forEach(
+        symbol => {
 
-            <div
-                class="color-box"
-                style="background:${selected.value}">
-            </div>
+            const button =
+                document.createElement(
+                    "button"
+                );
 
-            <div class="color-options">
 
-                ${colors.map(c=>`
+            button.className =
+                "memory-card";
 
-                    <button
-                        onclick="checkColor('${c.name}')">
-                        ${c.name}
-                    </button>
 
-                `).join("")}
+            button.innerText =
+                "❓";
 
-            </div>
 
-        </div>
-    `;
-}
+            button.onclick =
+            function(){
 
-function checkColor(color){
+                if(
+                    button.classList.contains(
+                        "open"
+                    ) ||
+                    button.classList.contains(
+                        "done"
+                    ) ||
+                    opened.length >= 2
+                ){
 
-    if(color===currentColor){
+                    return;
 
-        score+=20;
-        coins+=5;
+                }
 
-        updateStats();
 
-        completeLevel();
+                button.classList.add(
+                    "open"
+                );
 
-    }else{
 
-        showResult(
-            "Wrong!",
-            "Try the next level."
-        );
-    }
-}
+                button.innerText =
+                    symbol;
 
 
-/* QUICK CLICK */
+                opened.push({
 
-function loadQuick(){
+                    button:
+                    button,
 
-    targetHits=0;
+                    symbol:
+                    symbol
 
-    document.getElementById("instruction").innerText=
-        "Click the target before time runs out!";
+                });
 
-    let target=document.getElementById("target");
 
-    target.style.display="flex";
+                if(
+                    opened.length === 2
+                ){
 
-    let seconds=Math.max(3,7-level/2);
+                    setTimeout(
+                        function(){
 
-    moveTarget();
+                            if(
+                                opened[0].symbol ===
+                                opened[1].symbol
+                            ){
 
-    timer=setTimeout(()=>{
-
-        target.style.display="none";
-
-        if(targetHits>=3){
-
-            score+=30;
-            coins+=8;
-
-            updateStats();
-
-            completeLevel();
-
-        }else{
-
-            showResult(
-                "Time Up!",
-                "You need 3 hits."
-            );
-        }
-
-    },seconds*1000);
-}
-
-
-/* RESULT */
-
-function completeLevel(){
-
-    clearInterval(timer);
-
-    document.getElementById("resultTitle").innerText=
-        "Level "+level+" Complete! 🎉";
-
-    document.getElementById("resultText").innerText=
-        "You earned coins. Get ready for Level "+(level+1)+".";
-
-    document.getElementById("result").style.display="flex";
-}
-
-function showResult(title,text){
-
-    clearInterval(timer);
-
-    document.getElementById("resultTitle").innerText=title;
-    document.getElementById("resultText").innerText=text;
-    document.getElementById("result").style.display="flex";
-}
-
-
-/* NEXT LEVEL */
-
-function nextLevel(){
-
-    level++;
-
-    /*
-       Level တက်လာတာနဲ့
-       Tap target အရေအတွက် တိုးမယ်
-       Number digit တိုးမယ်
-       Quick Click အချိန် လျော့မယ်
-    */
-
-    targetNeeded=Math.min(5+level-1,12);
-
-    loadGame();
-}
-
-
-/* STATS */
-
-function updateStats(){
-
-    document.getElementById("score").innerText=score;
-    document.getElementById("coins").innerText=coins;
-
-}
-
-
-/* BACK */
-
-function backToGames(){
-
-    clearInterval(timer);
-
-    document.getElementById("playScreen").style.display="none";
-    document.getElementById("gameList").style.display="block";
-
-}
-
-</script>
-
-</body>
-  </html>
