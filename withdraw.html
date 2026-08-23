@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>MM Real Earn - Withdraw</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#070b16;
+    color:#fff;
+    min-height:100vh;
+}
+
+.topbar{
+    height:70px;
+    padding:0 18px;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    background:#0c1223;
+    border-bottom:1px solid
+    rgba(255,255,255,.07);
+}
+
+.back{
+    width:42px;
+    height:42px;
+
+    border:0;
+    border-radius:13px;
+
+    background:#18233c;
+    color:#fff;
+
+    font-size:25px;
+}
+
+.logo{
+    width:42px;
+    height:42px;
+
+    border-radius:13px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+    linear-gradient(
+        135deg,
+        #00e5ff,
+        #6658e8
+    );
+
+    font-size:20px;
+    font-weight:900;
+}
+
+.title{
+    font-size:17px;
+    font-weight:800;
+}
+
+.title span{
+    color:#00e5ff;
+}
+
+.container{
+    width:100%;
+    max-width:520px;
+
+    margin:auto;
+
+    padding:20px;
+}
+
+/* BALANCE */
+
+.balance-card{
+    padding:22px;
+
+    border-radius:23px;
+
+    background:
+    linear-gradient(
+        145deg,
+        #121d38,
+        #0b1122
+    );
+
+    border:1px solid
+    rgba(0,229,255,.15);
+
+    margin-bottom:25px;
+}
+
+.balance-title{
+    color:#8d99b5;
+    font-size:13px;
+}
+
+.balance{
+    margin-top:8px;
+
+    font-size:30px;
+    font-weight:900;
+}
+
+.balance span{
+    color:#00e5ff;
+    font-size:15px;
+}
+
+/* HEADING */
+
+.heading{
+    margin-bottom:14px;
+}
+
+.heading h2{
+    font-size:19px;
+}
+
+.heading p{
+    margin-top:5px;
+
+    color:#77839e;
+    font-size:12px;
+}
+
+/* AMOUNT */
+
+.amount-grid{
+    display:grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:12px;
+}
+
+.amount{
+    padding:19px 10px;
+
+    border-radius:18px;
+
+    border:1px solid
+    rgba(255,255,255,.07);
+
+    background:#10182b;
+
+    color:#fff;
+
+    cursor:pointer;
+}
+
+.amount.selected{
+    border-color:#00e5ff;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(0,188,212,.18),
+        rgba(101,87,232,.18)
+    );
+
+    box-shadow:
+    0 0 18px
+    rgba(0,229,255,.12);
+}
+
+.amount strong{
+    display:block;
+
+    font-size:18px;
+}
+
+.amount small{
+    display:block;
+
+    margin-top:6px;
+
+    color:#7d89a3;
+
+    font-size:10px;
+}
+
+/* PAYMENT */
+
+.payment{
+    margin-top:25px;
+}
+
+.payment h2{
+    font-size:18px;
+    margin-bottom:12px;
+}
+
+.method{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:15px;
+
+    border-radius:16px;
+
+    background:#10182b;
+
+    border:1px solid
+    rgba(255,255,255,.07);
+
+    margin-bottom:10px;
+
+    cursor:pointer;
+}
+
+.method.selected{
+    border-color:#00e5ff;
+}
+
+.method-icon{
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#192541;
+
+    font-size:20px;
+}
+
+.method-info{
+    flex:1;
+}
+
+.method-info strong{
+    font-size:14px;
+}
+
+.method-info small{
+    display:block;
+
+    color:#78849f;
+
+    font-size:10px;
+
+    margin-top:4px;
+}
+
+.radio{
+    width:19px;
+    height:19px;
+
+    border:2px solid #52607b;
+
+    border-radius:50%;
+}
+
+.method.selected .radio{
+    border-color:#00e5ff;
+
+    background:
+    radial-gradient(
+        circle,
+        #00e5ff 45%,
+        transparent 48%
+    );
+}
+
+/* ACCOUNT */
+
+.account{
+    margin-top:22px;
+}
+
+.account label{
+    display:block;
+
+    color:#a9b3c8;
+
+    font-size:12px;
+
+    margin-bottom:8px;
+}
+
+.account input{
+    width:100%;
+
+    padding:15px;
+
+    border:1px solid
+    rgba(255,255,255,.08);
+
+    outline:none;
+
+    border-radius:14px;
+
+    background:#10182b;
+
+    color:#fff;
+
+    font-size:14px;
+}
+
+.account input:focus{
+    border-color:#00e5ff;
+}
+
+/* BUTTON */
+
+.withdraw-btn{
+    width:100%;
+
+    margin-top:22px;
+
+    padding:16px;
+
+    border:0;
+
+    border-radius:16px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #00bcd4,
+        #6658e8
+    );
+
+    color:#fff;
+
+    font-size:15px;
+    font-weight:800;
+
+    cursor:pointer;
+}
+
+/* MESSAGE */
+
+.message{
+    display:none;
+
+    margin-top:15px;
+
+    padding:14px;
+
+    border-radius:14px;
+
+    text-align:center;
+
+    font-size:12px;
+}
+
+.message.error{
+    display:block;
+
+    background:
+    rgba(255,55,95,.1);
+
+    color:#ff6682;
+}
+
+.message.success{
+    display:block;
+
+    background:
+    rgba(0,229,255,.08);
+
+    color:#00e5ff;
+}
+
+.note{
+    margin-top:13px;
+
+    text-align:center;
+
+    color:#68748e;
+
+    font-size:10px;
+
+    line-height:1.6;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+    <button
+    class="back"
+    onclick="goBack()">
+
+        ‹
+
+    </button>
+
+    <div class="logo">
+        M
+    </div>
+
+    <div class="title">
+        MM <span>REAL</span> EARN
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- BALANCE -->
+
+<section class="balance-card">
+
+    <div class="balance-title">
+        Available Balance
+    </div>
+
+    <div class="balance">
+
+        <span>MMK</span>
+
+        <strong id="balance">
+            0
+        </strong>
+
+    </div>
+
+</section>
+
+
+<!-- AMOUNT -->
+
+<section>
+
+    <div class="heading">
+
+        <h2>
+            Select Amount
+        </h2>
+
+        <p>
+            Choose your withdrawal amount
+        </p>
+
+    </div>
+
+
+    <div class="amount-grid">
+
+
+        <button
+        class="amount"
+        onclick="selectAmount(5000,this)">
+
+            <strong>
+                MMK 5,000
+            </strong>
+
+            <small>
+                Withdraw
+            </small>
+
+        </button>
+
+
+        <button
+        class="amount"
+        onclick="selectAmount(10000,this)">
+
+            <strong>
+                MMK 10,000
+            </strong>
+
+            <small>
+                Withdraw
+            </small>
+
+        </button>
+
+
+        <button
+        class="amount"
+        onclick="selectAmount(50000,this)">
+
+            <strong>
+                MMK 50,000
+            </strong>
+
+            <small>
+                Withdraw
+            </small>
+
+        </button>
+
+
+    </div>
+
+</section>
+
+
+<!-- PAYMENT -->
+
+<section class="payment">
+
+    <h2>
+        Payment Method
+    </h2>
+
+
+    <div
+    class="method selected"
+    onclick="selectMethod(this,'KPay')">
+
+        <div class="method-icon">
+            💳
+        </div>
+
+        <div class="method-info">
+
+            <strong>
+                KPay
+            </strong>
+
+            <small>
+                Myanmar Kyat
+            </small>
+
+        </div>
+
+        <div class="radio"></div>
+
+    </div>
+
+
+    <div
+    class="method"
+    onclick="selectMethod(this,'WavePay')">
+
+        <div class="method-icon">
+            💵
+        </div>
+
+        <div class="method-info">
+
+            <strong>
+                WavePay
+            </strong>
+
+            <small>
+                Myanmar Kyat
+            </small>
+
+        </div>
+
+        <div class="radio"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ACCOUNT -->
+
+<section class="account">
+
+    <label>
+        KPay / WavePay Account Number
+    </label>
+
+    <input
+    type="text"
+    id="account"
+    placeholder="Enter account number"
+    inputmode="numeric">
+
+</section>
+
+
+<!-- WITHDRAW -->
+
+<button
+class="withdraw-btn"
+onclick="withdraw()">
+
+    💸 Withdraw Now
+
+</button>
+
+
+<div
+id="message"
+class="message">
+</div>
+
+
+<div class="note">
+
+    Minimum withdrawal:
+    MMK 5,000
+
+    <br>
+
+    Balance will be updated
+    after successful withdrawal.
+
+</div>
+
+
+</main>
+
+
+<script>
+
+
+/* BALANCE */
+
+let balance =
+Number(
+    localStorage.getItem("mmBalance")
+) || 0;
+
+
+let selectedAmount = 0;
+
+let selectedMethod = "KPay";
+
+
+function showBalance(){
+
+    document.getElementById(
+        "balance"
+    ).innerText =
+    balance.toLocaleString();
+
+}
+
+showBalance();
+
+
+/* BACK */
+
+function goBack(){
+
+    window.location.href =
+    "main.html";
+
+}
+
+
+/* SELECT AMOUNT */
+
+function selectAmount(
+    amount,
+    button
+){
+
+    selectedAmount = amount;
+
+
+    document
+    .querySelectorAll(".amount")
+    .forEach(item=>{
+
+        item.classList.remove(
+            "selected"
+        );
+
+    });
+
+
+    button.classList.add(
+        "selected"
+    );
+
+}
+
+
+/* PAYMENT METHOD */
+
+function selectMethod(
+    element,
+    method
+){
+
+    selectedMethod = method;
+
+
+    document
+    .querySelectorAll(".method")
+    .forEach(item=>{
+
+        item.classList.remove(
+            "selected"
+        );
+
+    });
+
+
+    element.classList.add(
+        "selected"
+    );
+
+}
+
+
+/* MESSAGE */
+
+function showMessage(
+    text,
+    type
+){
+
+    const box =
+    document.getElementById(
+        "message"
+    );
+
+    box.className =
+    "message " + type;
+
+    box.innerText = text;
+
+}
+
+
+/* WITHDRAW */
+
+function withdraw(){
+
+    const account =
+    document
+    .getElementById("account")
+    .value
+    .trim();
+
+
+    if(selectedAmount === 0){
+
+        showMessage(
+            "Please select an amount.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(balance < selectedAmount){
+
+        showMessage(
+            "Insufficient balance.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(account === ""){
+
+        showMessage(
+            "Please enter your account number.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Temporary local test.
+
+       Later this will be replaced
+       with the real database request.
+    */
+
+    balance -= selectedAmount;
+
+
+    localStorage.setItem(
+        "mmBalance",
+        balance
+    );
+
+
+    showBalance();
+
+
+    showMessage(
+        "Withdrawal request submitted: MMK " +
+        selectedAmount.toLocaleString() +
+        " via " +
+        selectedMethod,
+        "success"
+    );
+
+
+    selectedAmount = 0;
+
+
+    document
+    .querySelectorAll(".amount")
+    .forEach(item=>{
+
+        item.classList.remove(
+            "selected"
+        );
+
+    });
+
+}
+
+</script>
+
+</body>
+  </html>
