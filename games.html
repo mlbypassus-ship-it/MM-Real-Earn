@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>MM Real Earn - Games</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -32,7 +34,7 @@ body{
     border-bottom:1px solid rgba(255,255,255,.08);
     position:sticky;
     top:0;
-    z-index:10;
+    z-index:20;
 }
 
 .back{
@@ -186,8 +188,38 @@ body{
     font-size:18px;
 }
 
+.level-bar{
+    height:6px;
+    background:#18233c;
+    border-radius:20px;
+    margin-top:10px;
+    overflow:hidden;
+}
+
+.level-progress{
+    height:100%;
+    width:10%;
+    background:linear-gradient(90deg,#00e5ff,#6557e8);
+    transition:.3s;
+}
+
+.reward-box{
+    margin-top:15px;
+    padding:13px;
+    text-align:center;
+    border-radius:15px;
+    background:#10182b;
+    color:#9ca7bf;
+    font-size:12px;
+}
+
+.reward-box strong{
+    color:#00e5ff;
+}
+
 .game-box{
     height:390px;
+    margin-top:18px;
     border-radius:24px;
     background:
         radial-gradient(
@@ -221,6 +253,7 @@ body{
     font-size:20px;
     font-weight:bold;
     cursor:pointer;
+    user-select:none;
 }
 
 .memory-grid{
@@ -283,7 +316,7 @@ body{
 }
 
 .color-area{
-    padding-top:50px;
+    padding-top:35px;
     text-align:center;
 }
 
@@ -314,12 +347,12 @@ body{
     display:none;
     position:absolute;
     inset:0;
-    background:rgba(7,11,22,.96);
+    background:rgba(7,11,22,.97);
     align-items:center;
     justify-content:center;
     flex-direction:column;
     text-align:center;
-    z-index:5;
+    z-index:10;
     padding:20px;
 }
 
@@ -352,47 +385,20 @@ body{
     color:white;
 }
 
-.level-bar{
-    height:6px;
-    background:#18233c;
-    border-radius:20px;
-    margin-top:10px;
-    overflow:hidden;
-}
-
-.level-progress{
-    height:100%;
-    width:10%;
-    background:linear-gradient(90deg,#00e5ff,#6557e8);
-    transition:.3s;
-}
-
-.reward-box{
-    margin-top:15px;
-    padding:13px;
-    text-align:center;
-    border-radius:15px;
-    background:#10182b;
-    color:#9ca7bf;
-    font-size:12px;
-}
-
-.reward-box strong{
-    color:#00e5ff;
-}
-
 .reward-loading{
-    color:#ffd166;
     font-size:12px;
+    color:#00e5ff;
     margin-top:8px;
 }
 
-.success{
-    color:#22c55e !important;
-}
+@media(max-width:360px){
+    .container{
+        padding:14px;
+    }
 
-.error{
-    color:#ff5577 !important;
+    .game-card{
+        padding:14px;
+    }
 }
 </style>
 </head>
@@ -503,12 +509,9 @@ body{
         Game Level Win Reward:
         <strong>10–50 MMK</strong>
 
-        <div id="rewardStatus"></div>
+        <div class="reward-loading" id="rewardStatus"></div>
 
     </div>
-
-
-    <br>
 
 
     <div class="game-box" id="gameBox">
@@ -554,9 +557,9 @@ body{
 
 <script>
 
-/* =========================================================
-   SUPABASE CONNECTION
-========================================================= */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
 "https://acclbthzfzrfbwyslpvv.supabase.co";
@@ -571,9 +574,9 @@ window.supabase.createClient(
 );
 
 
-/* =========================================================
+/* =====================================================
    VARIABLES
-========================================================= */
+===================================================== */
 
 let currentGame = "";
 
@@ -593,24 +596,23 @@ let currentColor = "";
 
 let timer = null;
 
-let rewardSaving = false;
+let rewardBusy = false;
 
 
-/* =========================================================
+/* =====================================================
    HOME
-========================================================= */
+===================================================== */
 
 function goHome(){
 
-    window.location.href =
-        "main.html";
+    window.location.href = "main.html";
 
 }
 
 
-/* =========================================================
-   GET LOGGED-IN USER
-========================================================= */
+/* =====================================================
+   GET LOGIN USER
+===================================================== */
 
 async function getUser(){
 
@@ -621,7 +623,7 @@ async function getUser(){
 
     if(error){
 
-        console.log(
+        console.error(
             "AUTH ERROR:",
             error
         );
@@ -630,72 +632,73 @@ async function getUser(){
     }
 
     return data.user || null;
+
 }
 
 
-/* =========================================================
+/* =====================================================
    GET PROFILE
-========================================================= */
+===================================================== */
 
 async function getProfile(){
 
-    const user =
-        await getUser();
+    const user = await getUser();
 
     if(!user){
 
         return null;
+
     }
 
 
-    let {data,error} =
+    /*
+      Email နဲ့ profile ရှာမယ်
+    */
+
+    let result =
         await db
         .from("profiles")
         .select("email,balance,points")
-        .eq(
-            "email",
-            user.email
-        )
+        .eq("email",user.email)
         .maybeSingle();
 
 
-    if(error){
+    if(result.error){
 
-        console.log(
+        console.error(
             "PROFILE ERROR:",
-            error
+            result.error
         );
 
         return null;
+
     }
 
 
-    return data;
+    return result.data || null;
+
 }
 
 
-/* =========================================================
-   SAVE GAME REWARD
-========================================================= */
+/* =====================================================
+   GIVE GAME REWARD
+===================================================== */
 
-async function addGameReward(){
+async function giveGameReward(){
 
-    if(rewardSaving){
+    if(rewardBusy){
 
         return 0;
+
     }
 
-    rewardSaving = true;
+    rewardBusy = true;
 
 
     const status =
         document.getElementById(
             "rewardStatus"
         );
-
-
-    status.className =
-        "reward-loading";
 
     status.innerText =
         "Saving reward...";
@@ -709,9 +712,12 @@ async function addGameReward(){
 
         if(!user){
 
-            throw new Error(
-                "Please login first."
+            alert(
+                "Login ဝင်ထားတဲ့ account မတွေ့ပါဘူး။"
             );
+
+            return 0;
+
         }
 
 
@@ -721,9 +727,12 @@ async function addGameReward(){
 
         if(!profile){
 
-            throw new Error(
-                "Profile not found."
+            alert(
+                "ဒီ account အတွက် profile မတွေ့ပါဘူး။"
             );
+
+            return 0;
+
         }
 
 
@@ -734,7 +743,7 @@ async function addGameReward(){
 
 
         /*
-          RANDOM 10 - 50 MMK
+          10 - 50 MMK random
         */
 
         const reward =
@@ -748,19 +757,17 @@ async function addGameReward(){
 
 
         /*
-          SAVE TO SUPABASE
+          Supabase database update
         */
 
         const {
             data,
             error
-        } = await db
+        } =
+        await db
         .from("profiles")
         .update({
-
-            balance:
-            newBalance
-
+            balance:newBalance
         })
         .eq(
             "email",
@@ -772,12 +779,24 @@ async function addGameReward(){
 
         if(error){
 
-            throw error;
+            console.error(
+                "REWARD SAVE ERROR:",
+                error
+            );
+
+            alert(
+                "Reward မဝင်ပါ။\n\n" +
+                error.message
+            );
+
+            return 0;
+
         }
 
 
         /*
-          LOCAL CACHE
+          Main page local balance
+          ကိုလည်း update
         */
 
         localStorage.setItem(
@@ -789,64 +808,57 @@ async function addGameReward(){
 
 
         /*
-          INFORM OTHER PAGES
+          Other pages ကို
+          balance update signal
         */
 
         window.dispatchEvent(
-            new Event(
-                "balanceUpdated"
+            new CustomEvent(
+                "balanceUpdated",
+                {
+                    detail:{
+                        balance:
+                        data.balance
+                    }
+                }
             )
         );
 
 
-        status.className =
-            "reward-loading success";
-
         status.innerText =
-            "+" +
-            reward +
-            " MMK added to balance";
+            "Reward saved ✓";
 
 
         return reward;
 
+    }
+    finally{
 
-    }catch(error){
-
-        console.log(
-            "REWARD SAVE ERROR:",
-            error
-        );
-
-
-        status.className =
-            "reward-loading error";
-
-        status.innerText =
-            "Reward failed: " +
-            error.message;
-
-
-        return 0;
-
-
-    }finally{
-
-        rewardSaving = false;
+        rewardBusy = false;
 
     }
 
 }
 
 
-/* =========================================================
+/* =====================================================
    START GAME
-========================================================= */
+===================================================== */
 
 function startGame(game){
 
-    currentGame =
-        game;
+    clearAllTimers();
+
+
+    currentGame = game;
+
+    level = 1;
+
+    score = 0;
+
+    coins = 0;
+
+    targetNeeded = 5;
 
 
     document.getElementById(
@@ -859,20 +871,6 @@ function startGame(game){
         "playScreen"
     ).style.display =
         "block";
-
-
-    level = 1;
-
-    score = 0;
-
-    coins = 0;
-
-    targetHits = 0;
-
-    targetNeeded = 5;
-
-
-    updateStats();
 
 
     const names = {
@@ -896,20 +894,20 @@ function startGame(game){
         names[game];
 
 
+    updateStats();
+
     loadGame();
 
 }
 
 
-/* =========================================================
+/* =====================================================
    LOAD GAME
-========================================================= */
+===================================================== */
 
 function loadGame(){
 
-    clearTimeout(timer);
-
-    clearInterval(timer);
+    clearAllTimers();
 
 
     document.getElementById(
@@ -939,61 +937,27 @@ function loadGame(){
         ) + "%";
 
 
-    if(currentGame === "tap"){
-        loadTap();
-    }
-
-    if(currentGame === "memory"){
-        loadMemory();
-    }
-
-    if(currentGame === "number"){
-        loadNumber();
-    }
-
-    if(currentGame === "color"){
-        loadColor();
-    }
-
-    if(currentGame === "quick"){
-        loadQuick();
-    }
-
-}
-
-
-/* =========================================================
-   TAP TARGET
-========================================================= */
-
-function loadTap(){
-
-    targetHits = 0;
-
-
     const box =
         document.getElementById(
             "gameBox"
         );
 
 
+    /*
+      အရင် game content ရှင်း
+    */
+
     box.innerHTML = `
 
         <div class="instruction"
              id="instruction">
-
-            Tap the target
-            ${targetNeeded}
-            times!
-
+            Get ready...
         </div>
 
         <div class="target"
              id="target"
              onclick="hitTarget()">
-
             +
-
         </div>
 
         <div class="result"
@@ -1016,9 +980,63 @@ function loadTap(){
     `;
 
 
-    document.getElementById(
-        "target"
-    ).style.display =
+    if(currentGame === "tap"){
+
+        loadTap();
+
+    }
+    else if(currentGame === "memory"){
+
+        loadMemory();
+
+    }
+    else if(currentGame === "number"){
+
+        loadNumber();
+
+    }
+    else if(currentGame === "color"){
+
+        loadColor();
+
+    }
+    else if(currentGame === "quick"){
+
+        loadQuick();
+
+    }
+
+}
+
+
+/* =====================================================
+   TAP TARGET
+===================================================== */
+
+function loadTap(){
+
+    targetHits = 0;
+
+
+    const instruction =
+        document.getElementById(
+            "instruction"
+        );
+
+
+    const target =
+        document.getElementById(
+            "target"
+        );
+
+
+    instruction.innerText =
+        "Tap the target " +
+        targetNeeded +
+        " times!";
+
+
+    target.style.display =
         "flex";
 
 
@@ -1041,7 +1059,11 @@ function moveTarget(){
         );
 
 
-    if(!target) return;
+    if(!box || !target){
+
+        return;
+
+    }
 
 
     const maxX =
@@ -1055,36 +1077,42 @@ function moveTarget(){
     const maxY =
         Math.max(
             box.clientHeight -
-            target.offsetHeight,
+            target.offsetHeight -
+            20,
             80
         );
 
 
-    const x =
-        Math.random() *
-        maxX;
-
-
-    const y =
-        70 +
-        Math.random() *
-        Math.max(
-            maxY - 70,
-            1
-        );
-
-
     target.style.left =
-        x + "px";
+        Math.floor(
+            Math.random() * maxX
+        ) + "px";
 
 
     target.style.top =
-        y + "px";
+        (
+            70 +
+            Math.floor(
+                Math.random() *
+                Math.max(
+                    maxY - 70,
+                    1
+                )
+            )
+        ) + "px";
 
 }
 
 
 function hitTarget(){
+
+    if(currentGame !== "tap" &&
+       currentGame !== "quick"){
+
+        return;
+
+    }
+
 
     targetHits++;
 
@@ -1096,8 +1124,7 @@ function hitTarget(){
 
 
     if(
-        currentGame ===
-        "quick"
+        currentGame === "quick"
     ){
 
         moveTarget();
@@ -1112,18 +1139,10 @@ function hitTarget(){
         targetNeeded
     ){
 
-        const target =
-            document.getElementById(
-                "target"
-            );
-
-
-        if(target){
-
-            target.style.display =
-                "none";
-
-        }
+        document.getElementById(
+            "target"
+        ).style.display =
+            "none";
 
 
         completeLevel();
@@ -1138,9 +1157,9 @@ function hitTarget(){
 }
 
 
-/* =========================================================
+/* =====================================================
    MEMORY
-========================================================= */
+===================================================== */
 
 function loadMemory(){
 
@@ -1150,43 +1169,39 @@ function loadMemory(){
         );
 
 
-    box.innerHTML = `
-
-        <div class="instruction">
-            Find the matching pairs.
-        </div>
-
-        <div class="memory-grid"
-             id="memoryGrid">
-        </div>
-
-        <div class="result"
-             id="result">
-
-            <h2 id="resultTitle">
-                Level Complete!
-            </h2>
-
-            <p id="resultText">
-                Great job!
-            </p>
-
-            <button onclick="nextLevel()">
-                Next Level →
-            </button>
-
-        </div>
-
-    `;
+    box.innerHTML = "";
 
 
-    const grid =
-        document.getElementById(
-            "memoryGrid"
+    const instruction =
+        document.createElement(
+            "div"
         );
 
 
-    const symbols = [
+    instruction.className =
+        "instruction";
+
+
+    instruction.innerText =
+        "Find all matching pairs.";
+
+
+    box.appendChild(
+        instruction
+    );
+
+
+    const grid =
+        document.createElement(
+            "div"
+        );
+
+
+    grid.className =
+        "memory-grid";
+
+
+    let symbols = [
 
         "🍎","🍎",
         "⭐","⭐",
@@ -1197,16 +1212,17 @@ function loadMemory(){
 
 
     symbols.sort(
-        () =>
-        Math.random() - 0.5
+        () => Math.random() - 0.5
     );
 
 
     let opened = [];
 
+    let completed = 0;
+
 
     symbols.forEach(
-        symbol => {
+        function(symbol){
 
             const button =
                 document.createElement(
@@ -1250,13 +1266,8 @@ function loadMemory(){
 
 
                 opened.push({
-
-                    button:
                     button,
-
-                    symbol:
                     symbol
-
                 });
 
 
@@ -1264,11 +1275,7 @@ function loadMemory(){
                     opened.length === 2
                 ){
 
-                    setTimeout(
-                        function(){
+                    const first =
+                        opened[0];
 
-                            if(
-                                opened[0].symbol ===
-                                opened[1].symbol
-                            ){
-
+    
