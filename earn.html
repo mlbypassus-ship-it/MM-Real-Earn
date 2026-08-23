@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
+
+<title>MM Real Earn - Earn</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#070b16;
+    color:#fff;
+    min-height:100vh;
+    padding-bottom:30px;
+}
+
+/* TOP BAR */
+
+.topbar{
+    height:70px;
+    padding:0 18px;
+    display:flex;
+    align-items:center;
+    gap:13px;
+
+    background:#0c1223;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
+
+    position:sticky;
+    top:0;
+    z-index:20;
+}
+
+.back{
+    width:40px;
+    height:40px;
+
+    border:0;
+    border-radius:12px;
+
+    background:#17213a;
+    color:#fff;
+
+    font-size:22px;
+}
+
+.logo{
+    width:40px;
+    height:40px;
+
+    border-radius:13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00e5ff,
+            #6557e8
+        );
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:900;
+
+    box-shadow:
+        0 0 18px
+        rgba(0,229,255,.35);
+}
+
+.title{
+    font-size:18px;
+    font-weight:800;
+}
+
+.title span{
+    color:#00e5ff;
+}
+
+/* CONTAINER */
+
+.container{
+    width:100%;
+    max-width:520px;
+
+    margin:auto;
+
+    padding:18px;
+}
+
+/* BALANCE */
+
+.balance-card{
+
+    padding:22px;
+
+    border-radius:24px;
+
+    background:
+
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(0,229,255,.20),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            145deg,
+            #121d38,
+            #0b1122
+        );
+
+    border:
+        1px solid
+        rgba(0,229,255,.18);
+
+    margin-bottom:18px;
+}
+
+.balance-title{
+
+    color:#9aa6c2;
+
+    font-size:13px;
+}
+
+.balance{
+
+    margin-top:8px;
+
+    font-size:32px;
+
+    font-weight:900;
+}
+
+.balance span{
+
+    font-size:16px;
+
+    color:#00e5ff;
+}
+
+/* DAILY LIMIT */
+
+.limit-card{
+
+    padding:17px;
+
+    border-radius:20px;
+
+    background:#10182b;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    margin-bottom:20px;
+}
+
+.limit-top{
+
+    display:flex;
+
+    justify-content:
+        space-between;
+
+    margin-bottom:10px;
+}
+
+.limit-title{
+
+    font-weight:bold;
+
+    font-size:14px;
+}
+
+.limit-value{
+
+    color:#00e5ff;
+
+    font-weight:bold;
+
+    font-size:13px;
+}
+
+.limit-bar{
+
+    width:100%;
+
+    height:8px;
+
+    border-radius:20px;
+
+    background:#1b2740;
+
+    overflow:hidden;
+}
+
+.limit-progress{
+
+    height:100%;
+
+    width:0%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #00e5ff,
+            #6557e8
+        );
+
+    transition:.3s;
+}
+
+/* SECTION */
+
+.section-title{
+
+    font-size:19px;
+
+    font-weight:800;
+
+    margin:
+        20px 0 12px;
+}
+
+/* EARN CARD */
+
+.earn-card{
+
+    padding:18px;
+
+    border-radius:21px;
+
+    background:#10182b;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    margin-bottom:13px;
+}
+
+.earn-head{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+}
+
+.earn-icon{
+
+    width:50px;
+    height:50px;
+
+    flex-shrink:0;
+
+    border-radius:16px;
+
+    background:#192541;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-size:25px;
+}
+
+.earn-info{
+
+    flex:1;
+}
+
+.earn-info h3{
+
+    font-size:16px;
+
+    margin-bottom:5px;
+}
+
+.earn-info p{
+
+    color:#7e8aa6;
+
+    font-size:11px;
+
+    line-height:1.5;
+}
+
+.reward{
+
+    color:#00e5ff;
+
+    font-weight:900;
+
+    font-size:14px;
+
+    white-space:nowrap;
+}
+
+.earn-button{
+
+    width:100%;
+
+    border:0;
+
+    padding:13px;
+
+    border-radius:13px;
+
+    margin-top:15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #00bcd4,
+            #6557e8
+        );
+
+    color:#fff;
+
+    font-weight:bold;
+
+    font-size:14px;
+}
+
+.earn-button:disabled{
+
+    opacity:.45;
+}
+
+/* STATUS */
+
+.status{
+
+    margin-top:15px;
+
+    min-height:22px;
+
+    text-align:center;
+
+    color:#00e5ff;
+
+    font-size:12px;
+}
+
+/* NOTICE */
+
+.notice{
+
+    margin-top:18px;
+
+    padding:14px;
+
+    border-radius:16px;
+
+    background:#111a30;
+
+    color:#8995ae;
+
+    font-size:11px;
+
+    line-height:1.6;
+
+    text-align:center;
+}
+
+/* WATCH RING */
+
+.watch-area{
+
+    display:none;
+
+    margin-top:15px;
+
+    text-align:center;
+}
+
+.watch-ring{
+
+    width:55px;
+    height:55px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    border:
+        4px solid
+        #1b2740;
+
+    border-top-color:#00e5ff;
+
+    animation:
+        spin .8s linear infinite;
+}
+
+.watch-time{
+
+    margin-top:8px;
+
+    color:#9aa6c2;
+
+    font-size:12px;
+}
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="topbar">
+
+    <button
+        class="back"
+        onclick="goHome()">
+
+        ‹
+
+    </button>
+
+
+    <div class="logo">
+
+        M
+
+    </div>
+
+
+    <div class="title">
+
+        MM <span>REAL</span> EARN
+
+    </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+<!-- BALANCE -->
+
+<section class="balance-card">
+
+    <div class="balance-title">
+
+        Available Balance
+
+    </div>
+
+
+    <div class="balance">
+
+        <span id="balance">
+
+            0
+
+        </span>
+
+        <span>
+
+            MMK
+
+        </span>
+
+    </div>
+
+</section>
+
+
+
+<!-- VIDEO DAILY LIMIT -->
+
+<section class="limit-card">
+
+    <div class="limit-top">
+
+        <div class="limit-title">
+
+            🎬 Daily Video Reward
+
+        </div>
+
+
+        <div class="limit-value">
+
+            <span id="videoEarned">
+
+                0
+
+            </span>
+
+            / 2000 MMK
+
+        </div>
+
+    </div>
+
+
+    <div class="limit-bar">
+
+        <div
+            class="limit-progress"
+            id="videoProgress">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<div class="section-title">
+
+    Earn Rewards
+
+</div>
+
+
+
+<!-- VIDEO -->
+
+<section class="earn-card">
+
+
+    <div class="earn-head">
+
+
+        <div class="earn-icon">
+
+            🎬
+
+        </div>
+
+
+        <div class="earn-info">
+
+            <h3>
+
+                Video Reward
+
+            </h3>
+
+            <p>
+
+                Watch the video until
+                the timer is complete,
+                then claim your reward.
+
+            </p>
+
+        </div>
+
+
+        <div class="reward">
+
+            10–50 MMK
+
+        </div>
+
+
+    </div>
+
+
+
+    <div
+        class="watch-area"
+        id="watchArea">
+
+        <div class="watch-ring"></div>
+
+        <div
+            class="watch-time"
+            id="watchTime">
+
+            Preparing video...
+
+        </div>
+
+    </div>
+
+
+
+    <button
+        class="earn-button"
+        id="videoButton"
+        onclick="startVideoReward()">
+
+        🎬 Start Watching
+
+    </button>
+
+
+</section>
+
+
+
+<!-- GAME -->
+
+<section class="earn-card">
+
+
+    <div class="earn-head">
+
+
+        <div class="earn-icon">
+
+            🎮
+
+        </div>
+
+
+        <div class="earn-info">
+
+            <h3>
+
+                Game Level Reward
+
+            </h3>
+
+            <p>
+
+                Win a game level and
+                claim your random reward.
+
+            </p>
+
+        </div>
+
+
+        <div class="reward">
+
+            10–50 MMK
+
+        </div>
+
+
+    </div>
+
+
+
+    <button
+        class="earn-button"
+        onclick="claimGameReward()">
+
+        🎮 Claim Game Reward
+
+    </button>
+
+
+</section>
+
+
+
+<!-- ADS -->
+
+<section class="earn-card">
+
+
+    <div class="earn-head">
+
+
+        <div class="earn-icon">
+
+            📺
+
+        </div>
+
+
+        <div class="earn-info">
+
+            <h3>
+
+                Watch Ads
+
+            </h3>
+
+            <p>
+
+                Complete a rewarded
+                advertisement and claim
+                your reward.
+
+            </p>
+
+        </div>
+
+
+        <div class="reward">
+
+            100 MMK
+
+        </div>
+
+
+    </div>
+
+
+
+    <button
+        class="earn-button"
+        onclick="claimAdReward()">
+
+        📺 Watch Ad
+
+    </button>
+
+
+</section>
+
+
+
+<div
+    class="status"
+    id="status">
+</div>
+
+
+
+<div class="notice">
+
+    🎬 Video reward limit:
+    <b>2000 MMK / day</b>
+
+    <br>
+
+    🎮 Game reward:
+    <b>10–50 MMK</b>
+
+    <br>
+
+    📺 Ad reward:
+    <b>100 MMK</b>
+
+</div>
+
+
+</main>
+
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+
+<script>
+
+
+/* ==================================
+   SUPABASE CONNECTION
+================================== */
+
+
+const SUPABASE_URL =
+    "https://acclbthzfzrfbwyslpvv.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_PxrCIfh0MfL6KT1iQxgqfw__IgNG1OY";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+
+/* ==================================
+   VARIABLES
+================================== */
+
+
+let currentUser = null;
+
+let profile = null;
+
+let watchTimer = null;
+
+let watchSeconds = 10;
+
+let pendingVideoReward = 0;
+
+
+
+/* ==================================
+   HOME
+================================== */
+
+
+function goHome(){
+
+    window.location.href =
+        "main.html";
+
+}
+
+
+
+/* ==================================
+   STATUS
+================================== */
+
+
+function status(text){
+
+    document.getElementById(
+        "status"
+    ).innerText = text;
+
+}
+
+
+
+/* ==================================
+   TODAY
+================================== */
+
+
+function today(){
+
+    const d =
+        new Date();
+
+    return d.toISOString()
+        .slice(0,10);
+
+}
+
+
+
+/* ==================================
+   VIDEO DAILY COUNTER
+================================== */
+
+
+function videoKey(){
+
+    return "mm_video_reward_" +
+        currentUser.id +
+        "_" +
+        today();
+
+}
+
+
+function getVideoEarned(){
+
+    return Number(
+        localStorage.getItem(
+            videoKey()
+        )
+    ) || 0;
+
+}
+
+
+function saveVideoEarned(value){
+
+    localStorage.setItem(
+        videoKey(),
+        value
+    );
+
+}
+
+
+
+/* ==================================
+   RANDOM 10 - 50
+================================== */
+
+
+function randomReward(){
+
+    return Math.floor(
+        Math.random() * 41
+    ) + 10;
+
+}
+
+
+
+/* ==================================
+   LOAD USER
+================================== */
+
+
+async function loadUser(){
+
+    const result =
+        await supabaseClient
+        .auth
+        .getUser();
+
+
+    if(
+        result.error ||
+        !result.data.user
+    ){
+
+        status(
+            "Please login first."
+        );
+
+        setTimeout(()=>{
+
+            window.location.href =
+                "index.html";
+
+        },1200);
+
+        return;
+
+    }
+
+
+    currentUser =
+        result.data.user;
+
+
+    await loadProfile();
+
+}
+
+
+
+/* ==================================
+   LOAD PROFILE
+================================== */
+
+
+async function loadProfile(){
+
+    const result =
+        await supabaseClient
+        .from("profiles")
+        .select(
+            "email,username,balance,points,created_at"
+        )
+        .eq(
+            "email",
+            currentUser.email
+        )
+        .single();
+
+
+    if(result.error){
+
+        console.error(
+            result.error
+        );
+
+        status(
+            "Profile could not be loaded."
+        );
+
+        return;
+
+    }
+
+
+    profile =
+        result.data;
+
+
+    updateBalance();
+
+    updateVideoLimit();
+
+}
+
+
+
+/* ==================================
+   BALANCE DISPLAY
+================================== */
+
+
+function updateBalance(){
+
+    const value =
+        Number(
+            profile.balance
+        ) || 0;
+
+
+    document.getElementById(
+        "balance"
+    ).innerText =
+        value.toLocaleString();
+
+}
+
+
+
+/* ==================================
+   VIDEO LIMIT DISPLAY
+================================== */
+
+
+function updateVideoLimit(){
+
+    const earned =
+        getVideoEarned();
+
+
+    document.getElementById(
+        "videoEarned"
+    ).innerText =
+        earned;
+
+
+    const percent =
+        Math.min(
+            earned / 2000 * 100,
+            100
+        );
+
+
+    document.getElementById(
+        "videoProgress"
+    ).style.width =
+        percent + "%";
+
+
+    const button =
+        document.getElementById(
+            "videoButton"
+        );
+
+
+    if(earned >= 2000){
+
+        button.disabled =
+            true;
+
+        button.innerText =
+            "Daily Limit Reached";
+
+    }
+
+}
+
+
+
+/* ==================================
+   ADD BALANCE
+================================== */
+
+
+async function addBalance(amount){
+
+    const oldBalance =
+        Number(
+            profile.balance
+        ) || 0;
+
+
+    const newBalance =
+        oldBalance + amount;
+
+
+    const result =
+        await supabaseClient
+        .from("profiles")
+        .update({
+
+            balance:
+                newBalance
+
+        })
+        .eq(
+            "email",
+            currentUser.email
+        )
+        .select(
+            "email,username,balance,points,created_at"
+        )
+        .single();
+
+
+    if(result.error){
+
+        console.error(
+            result.error
+        );
+
+        status(
+            "Reward could not be added."
+        );
+
+        return false;
+
+    }
+
+
+    profile =
+        result.data;
+
+
+    updateBalance();
+
+
+    return true;
+
+}
+
+
+
+/* ==================================
+   VIDEO START
+================================== */
+
+
+function startVideoReward(){
+
+    const earned =
+        getVideoEarned();
+
+
+    if(earned >= 2000){
+
+        status(
+            "Today's video reward limit is reached."
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "videoButton"
+        );
+
+
+    const watchArea =
+        document.getElementById(
+            "watchArea"
+        );
+
+
+    const watchTime =
+        document.getElementById(
+            "watchTime"
+        );
+
+
+    button.disabled =
+        true;
+
+
+    watchArea.style.display =
+        "block";
+
+
+    watchSeconds = 10;
+
+
+    watchTime.innerText =
+        "Watching... 10s";
+
+
+    pendingVideoReward =
+        randomReward();
+
+
+    clearInterval(
+        watchTimer
+    );
+
+
+    watchTimer =
+        setInterval(()=>{
+
+
+            watchSeconds--;
+
+
+            watchTime.innerText =
+                "Watching... " +
+                watchSeconds +
+                "s";
+
+
+            if(
+                watchSeconds <= 0
+            ){
+
+                clearInterval(
+                    watchTimer
+                );
+
+
+                watchArea.style.display =
+                    "none";
+
+
+                button.disabled =
+                    false;
+
+
+                button.innerText =
+                    "🎁 Claim " +
+                    pendingVideoReward +
+                    " MMK";
+
+
+                button.onclick =
+                    claimVideoReward;
+
+
+                status(
+                    "Video completed. Claim your reward."
+                );
+
+            }
+
+
+        },1000);
+
+}
+
+
+
+/* ==================================
+   VIDEO CLAIM
+================================== */
+
+
+async function claimVideoReward(){
+
+    const earned =
+        getVideoEarned();
+
+
+    if(earned >= 2000){
+
+        updateVideoLimit();
+
+        return;
+
+    }
+
+
+    let reward =
+        pendingVideoReward;
+
+
+    const remaining =
+        2000 - earned;
+
+
+    reward =
+        Math.min(
+            reward,
+            remaining
+        );
+
+
+    if(reward <= 0){
+
+        updateVideoLimit();
+
+        return;
+
+    }
+
+
+    const button =
+        document.getElementById(
+            "videoButton"
+        );
+
+
+    button.disabled =
+        true;
+
+
+    button.innerText =
+        "Adding Reward...";
+
+
+    const success =
+        await addBalance(
+            reward
+        );
+
+
+    if(success){
+
+        saveVideoEarned(
+            earned + reward
+        );
+
+
+        status(
+            "🎉 +" +
+            reward +
+            " MMK added to your balance!"
+        );
+
+
+        pendingVideoReward =
+            0;
+
+
+        button.innerText =
+            "🎬 Start Watching";
+
+
+        button.onclick =
+            startVideoReward;
+
+
+        updateVideoLimit();
+
+    }else{
+
+        button.disabled =
+            false;
+
+        button.innerText =
+            "🎁 Claim " +
+            reward +
+            " MMK";
+
+    }
+
+}
+
+
+
+/* ==================================
+   GAME REWARD
+================================== */
+
+
+async function claimGameReward(){
+
+    const reward =
+        randomReward();
+
+
+    const confirmReward =
+        confirm(
+            "Game Level Won!\n\n" +
+            "Reward: " +
+            reward +
+            " MMK\n\n" +
+            "Claim now?"
+        );
+
+
+    if(!confirmReward){
+
+        return;
+
+    }
+
+
+    const success =
+        await addBalance(
+            reward
+        );
+
+
+    if(success){
+
+        status(
+            "🎮 +" +
+            reward +
+            " MMK added!"
+        );
+
+    }
+
+}
+
+
+
+/* ==================================
+   AD REWARD
+================================== */
+
+
+async function claimAdReward(){
+
+    const confirmReward =
+        confirm(
+            "Advertisement completed?\n\n" +
+            "Reward: 100 MMK\n\n" +
+            "Claim now?"
+        );
+
+
+    if(!confirmReward){
+
+        return;
+
+    }
+
+
+    const success =
+        await addBalance(
+            100
+        );
+
+
+    if(success){
+
+        status(
+            "📺 +100 MMK added!"
+        );
+
+    }
+
+}
+
+
+
+/* ==================================
+   START
+================================== */
+
+
+loadUser();
+
+
+</script>
+
+</body>
+
+  </html>
