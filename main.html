@@ -432,7 +432,8 @@ body{
         </div>
 
         <div class="balance">
-            0.00 <span>MMK</span>
+    <span id="mainBalance">0</span>
+    <span>MMK</span>
         </div>
 
         <div class="balance-row">
@@ -635,5 +636,25 @@ function notification(){
 
 </script>
 
+function updateMainBalance(){
+
+    let balance =
+        Number(localStorage.getItem("mmBalance")) || 0;
+
+    document.getElementById("mainBalance")
+        .innerText =
+        balance.toLocaleString();
+
+}
+
+updateMainBalance();
+
+window.addEventListener("pageshow", function(){
+
+    updateMainBalance();
+
+});
+
+</script>
 </body>
 </html>
